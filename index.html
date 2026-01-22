@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DogBone 寵物美容契約</title>
+    <title>DogBone 寵物美容服務契約</title>
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; }
@@ -20,6 +20,7 @@
         .logo-text { font-family: 'ZCOOL KuaiLe', cursive; font-size: 42px; color: var(--dark-blue); margin: 0; text-shadow: 2px 2px #e0f2fe; }
         .sub-title { color: #888; font-size: 14px; letter-spacing: 2px; }
 
+        /* 輸入框樣式 */
         .form-section { margin-bottom: 20px; }
         .input-group { margin-bottom: 12px; }
         .input-group label { display: block; margin-bottom: 6px; color: var(--dark-blue); font-weight: bold; font-size: 14px; }
@@ -34,13 +35,13 @@
             background: #fafafa; font-size: 12px; border-radius: 12px; margin-bottom: 15px; color: #666; 
         }
 
-        /* 簽名區優化 */
+        /* 簽名區 */
         .sig-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .sig-title { color: var(--dark-blue); font-weight: bold; font-size: 14px; }
         .signature-wrapper { 
             width: 100%; height: 200px; background-color: #fff; 
             border: 2px solid var(--main-blue); border-radius: 15px; 
-            position: relative; touch-action: none; /* 核心：防止瀏覽器預設滾動 */
+            position: relative; touch-action: none; 
         }
         canvas { width: 100%; height: 100%; border-radius: 15px; }
         .sig-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ddd; pointer-events: none; font-size: 14px; }
@@ -52,9 +53,13 @@
         }
         #clear-btn { background: #f5f5f5; color: #999; }
         #save-btn { background: var(--main-blue); color: white; }
-        #save-btn:disabled { background: #d1e9ff; cursor: not-allowed; }
 
-        /* Loading 動畫 */
+        /* 隱私權聲明樣式 */
+        .privacy-note {
+            margin-top: 20px; padding: 0 10px; color: #aaa; font-size: 11px;
+            line-height: 1.5; text-align: center;
+        }
+
         .loading-overlay { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; 
@@ -64,8 +69,8 @@
 <body>
 
 <div id="loading" class="loading-overlay">
-    <div style="font-size: 40px; animation: rotate 2s linear infinite;">🐾</div>
-    <p style="color: var(--dark-blue); font-weight: bold;">正在同步至雲端...</p>
+    <div style="font-size: 40px; animation: bounce 1s infinite;">🦴</div>
+    <p style="color: var(--dark-blue); font-weight: bold;">正在安全傳送中...</p>
 </div>
 
 <div class="container">
@@ -76,16 +81,16 @@
 
     <div class="form-section">
         <div class="input-group">
-            <label>👤 主人全名</label>
-            <input type="text" id="owner-name" placeholder="請輸入姓名" maxlength="10">
+            <label>👤 主人姓名</label>
+            <input type="text" id="owner-name" placeholder="請輸入姓名" maxlength="15">
         </div>
         <div class="input-group">
             <label>🐶 寶貝名字</label>
-            <input type="text" id="pet-name" placeholder="請輸入寵物名字" maxlength="10">
+            <input type="text" id="pet-name" placeholder="寵物叫什麼名字呢？" maxlength="15">
         </div>
         <div class="input-group">
             <label>📱 聯絡電話</label>
-            <input type="tel" id="owner-phone" placeholder="例如：0912345678" maxlength="15">
+            <input type="tel" id="owner-phone" placeholder="填寫您的電話號碼" maxlength="15">
         </div>
     </div>
 
@@ -98,25 +103,29 @@
 
     <div class="sig-header">
         <span class="sig-title">✒️ 客戶簽署</span>
-        <span style="font-size: 12px; color: #aaa;">(請在框內手寫簽名)</span>
     </div>
-    <div class="signature-wrapper" id="sig-holder">
+    <div class="signature-wrapper">
         <div class="sig-hint" id="sig-hint">在此處簽名</div>
         <canvas id="signature-pad"></canvas>
     </div>
 
     <div class="btn-group">
-        <button id="clear-btn">清除重簽</button>
-        <button id="save-btn">確認並送出</button>
+        <button id="clear-btn">重簽</button>
+        <button id="save-btn">確認送出</button>
+    </div>
+
+    <div class="privacy-note">
+        ※ 告知義務：您輸入的資料僅供 DogBone 寵物美容服務契約存查，不另作他用，並受 Google 安全機制保護。
     </div>
 </div>
+
+<p style="color: #ccc; font-size: 11px; margin-top: 20px;">© 2026 DogBone Grooming. All rights reserved.</p>
 
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx0AV8k6Qn-i-6uILBE5bcBNg5oymzSDSF8sXux5Su-QqFC7M208uILNeCTAeyvAw6XVQ/exec';
     const canvas = document.getElementById('signature-pad');
     const signaturePad = new SignaturePad(canvas, {
-        penColor: 'rgb(0, 0, 0)',
         onBegin: () => { document.getElementById('sig-hint').style.display = 'none'; }
     });
 
@@ -137,38 +146,25 @@
     });
 
     document.getElementById('save-btn').addEventListener('click', function() {
-        // 1. 抓取值
         const owner = document.getElementById('owner-name').value.trim();
         const pet = document.getElementById('pet-name').value.trim();
         const phone = document.getElementById('owner-phone').value.trim();
 
-        // 2. 防呆檢查
-        if (!owner) { alert("請輸入主人姓名唷！"); return; }
-        if (!pet) { alert("請輸入寶貝名字唷！"); return; }
-        
-        // 電話格式簡易檢查 (僅限數字與加號)
+        if (!owner || !pet || !phone || signaturePad.isEmpty()) {
+            alert("請完整填寫資料並簽名唷！🐾");
+            return;
+        }
+
         const phoneRule = /^[0-9+-\s]+$/;
-        if (!phone || !phoneRule.test(phone)) {
-            alert("請輸入正確的電話號碼格式！");
+        if (!phoneRule.test(phone)) {
+            alert("電話格式好像有點問題，請再檢查一下唷！");
             return;
         }
 
-        // 簽名檢查
-        if (signaturePad.isEmpty()) {
-            alert("請完成手寫簽名再送出唷！🐾");
-            return;
-        }
-
-        // 3. 送出流程
         document.getElementById('loading').style.display = 'flex';
         this.disabled = true;
         
-        const data = {
-            owner: owner,
-            pet: pet,
-            phone: phone,
-            signature: signaturePad.toDataURL()
-        };
+        const data = { owner, pet, phone, signature: signaturePad.toDataURL() };
 
         fetch(scriptURL, {
             method: 'POST',
@@ -178,13 +174,13 @@
         })
         .then(() => {
             document.getElementById('loading').style.display = 'none';
-            alert("🎉 送出成功！資料已安全存檔。");
-            location.reload(); // 重整頁面清除資料
+            alert("🎉 送出成功！期待見到主人跟寶貝。");
+            location.reload(); 
         })
         .catch(error => {
             document.getElementById('loading').style.display = 'none';
             this.disabled = false;
-            alert("傳送出錯，請檢查網路連線。");
+            alert("傳送失敗，請確認網路連線。");
         });
     });
 </script>
