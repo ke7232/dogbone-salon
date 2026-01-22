@@ -3,52 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DogBone 寵物美容服務契約</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <title>DogBone 寵物美容契約</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f0f8ff; }
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 450px; width: 100%; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(162, 210, 255, 0.3); border: 3px solid var(--main-blue); box-sizing: border-box; }
-        header { text-align: center; margin-bottom: 15px; }
-        header h1 { color: var(--dark-blue); margin: 0; font-size: 28px; }
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; margin-bottom: 5px; color: var(--dark-blue); font-weight: bold; font-size: 14px; }
-        .input-group input { width: 100%; padding: 12px; border: 2px solid var(--main-blue); border-radius: 12px; box-sizing: border-box; outline: none; font-size: 16px; }
-        .contract-box { height: 120px; overflow-y: scroll; border: 1px solid #eee; padding: 12px; background: #fdfdfd; font-size: 13px; border-radius: 10px; margin-bottom: 15px; color: #666; line-height: 1.6; }
-        .signature-wrapper { width: 100%; height: 180px; background-color: #fff; border: 2px dashed var(--main-blue); border-radius: 12px; margin-bottom: 15px; touch-action: none; position: relative; }
-        canvas { width: 100%; height: 100%; border-radius: 12px; }
-        .btn-group { display: flex; gap: 10px; }
-        button { flex: 1; padding: 14px; border: none; border-radius: 50px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        #clear-btn { background: #e0e0e0; color: #666; }
-        #save-btn { background: var(--main-blue); color: white; }
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
+        :root { --main-blue: #a2d2ff; --soft-blue: #e0f2fe; --dark-blue: #0077b6; }
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            background-color: #f0f9ff; 
+            background-image: radial-gradient(#a2d2ff 0.5px, transparent 0.5px);
+            background-size: 20px 20px; /* 可愛小圓點背景 */
+            margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; 
+        }
+        .container { 
+            max-width: 450px; width: 100%; background: white; padding: 25px; 
+            border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            border: 4px solid var(--main-blue); box-sizing: border-box; 
+        }
+        header h1 { 
+            color: var(--dark-blue); font-family: 'ZCOOL KuaiLe', cursive; 
+            font-size: 36px; margin: 0; text-align: center; 
+        }
+        header p { text-align: center; color: #666; font-size: 14px; margin: 5px 0 20px 0; }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 8px; color: var(--dark-blue); font-weight: bold; font-size: 15px; }
+        .input-group input { 
+            width: 100%; padding: 12px; border: 2px solid var(--soft-blue); 
+            border-radius: 15px; box-sizing: border-box; outline: none; 
+            font-size: 16px; transition: 0.3s;
+        }
+        .input-group input:focus { border-color: var(--main-blue); background-color: #fdfeff; }
+
+        .contract-box { 
+            height: 100px; overflow-y: scroll; border: 2px solid #f0f0f0; 
+            padding: 12px; background: #fafafa; font-size: 13px; 
+            border-radius: 15px; margin-bottom: 20px; color: #777; line-height: 1.6; 
+        }
+
+        .sig-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; color: var(--dark-blue); font-weight: bold; }
+        
+        .signature-wrapper { 
+            width: 100%; height: 200px; background-color: #fff; 
+            border: 3px dashed var(--main-blue); border-radius: 20px; 
+            margin-bottom: 20px; touch-action: none; position: relative; 
+            overflow: hidden;
+        }
+        .signature-wrapper::after {
+            content: "🐾"; position: absolute; bottom: 10px; right: 10px; 
+            font-size: 24px; color: rgba(162, 210, 255, 0.4); pointer-events: none;
+        }
+        canvas { width: 100%; height: 100%; cursor: crosshair; }
+
+        .btn-group { display: flex; gap: 12px; }
+        button { 
+            flex: 1; padding: 15px; border: none; border-radius: 50px; 
+            font-size: 16px; font-weight: bold; cursor: pointer; 
+            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        #clear-btn { background: #f0f0f0; color: #888; }
+        #save-btn { background: var(--main-blue); color: white; box-shadow: 0 4px 15px rgba(162, 210, 255, 0.5); }
+        #save-btn:active { transform: scale(0.95); }
+
+        .loading-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(255,255,255,0.9); z-index: 1000; 
+            flex-direction: column; justify-content: center; align-items: center; 
+        }
+        .spinner { font-size: 50px; animation: bounch 1s infinite; }
+        @keyframes bounch { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
     </style>
 </head>
 <body>
 
 <div id="loading" class="loading-overlay">
-    <div style="font-size: 40px;">🐾</div>
-    <p style="color: var(--dark-blue); font-weight: bold;">資料上傳中...</p>
+    <div class="spinner">🦴</div>
+    <p style="color: var(--dark-blue); font-weight: bold; font-size: 18px;">正在把資料叼給老闆...</p>
 </div>
 
 <div class="container">
     <header>
-        <h1>🐾 DogBone</h1>
-        <p style="color: #888; margin-top: 5px;">寵物美容服務定型化契約</p>
+        <h1>DogBone</h1>
+        <p>🐾 寵物美容服務定型化契約 🐾</p>
     </header>
 
     <div class="input-group">
         <label>👤 主人姓名</label>
-        <input type="text" id="owner-name" placeholder="請填寫您的姓名">
+        <input type="text" id="owner-name" placeholder="請輸入姓名">
     </div>
     <div class="input-group">
         <label>🐶 寶貝名字</label>
-        <input type="text" id="pet-name" placeholder="請填寫寵物名字">
+        <input type="text" id="pet-name" placeholder="寶貝叫什麼名字呢？">
     </div>
     <div class="input-group">
         <label>📱 聯絡電話</label>
-        <input type="tel" id="owner-phone" placeholder="請填寫電話號碼">
+        <input type="tel" id="owner-phone" placeholder="填寫電話方便聯繫">
     </div>
 
     <div class="contract-box">
-        <strong>【契約
+        <strong>【溫馨叮嚀】</strong><br>
+        1. 本店依農業部規範執行美容服務。<br>
+        2. 簽名代表您已確認寶貝健康狀況良好。<br>
+        3. 若有緊急醫療需求，將送至指定醫院。<br>
+        4. 更多詳細條款請參閱官方公告範本。
+    </div>
+
+    <div class="sig-label">
+        <span>🖋 點擊下方空白處簽名</span>
+    </div>
+    <div class="signature-wrapper">
+        <canvas id="signature-pad"></canvas>
+    </div>
+
+    <div class="btn-group">
+        <button id="clear-btn">🧹 重擦</button>
+        <button id="save-btn">🚀 確認送出</button>
+    </div>
+</div>
+
+<p style="color: #bbb; font-size: 12px; margin-top: 20px;">© 2026 DogBone Grooming</p>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx0AV8k6Qn-i-6uILBE5bcBNg5oymzSDSF8sXux5Su-QqFC7M208uILNeCTAeyvAw6XVQ/exec';
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas, {
+        penColor: 'rgb(0, 0, 0)'
+    });
+
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
+    }
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("orientationchange", resizeCanvas);
+    resizeCanvas();
+
+    document.getElementById('clear-btn').addEventListener('click', () => signaturePad.clear());
+
+    document.getElementById('save-btn').addEventListener('click', function() {
+        const owner = document.getElementById('owner-name').value;
+        const pet = document.getElementById('pet-name').value;
+        const phone = document.getElementById('owner-phone').value;
+
+        if (!owner || !pet || !phone || signaturePad.isEmpty()) {
+            alert("請填寫完整資料並簽名唷！🐾");
+            return;
+        }
+
+        document.getElementById('loading').style.display = 'flex';
+        
+        const data = {
+            owner: owner,
+            pet: pet,
+            phone: phone,
+            signature: signaturePad.toDataURL()
+        };
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            document.getElementById('loading').style.display = 'none';
+            alert("🎉 送出成功！期待見到主人跟寶貝！");
+            signaturePad.clear();
+            document.getElementById('owner-name').value = '';
+            document.getElementById('pet-name').value = '';
+            document.getElementById('owner-phone').value = '';
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';
+            alert("傳送出了一點小問題，請再試一次。");
+        });
+    });
+</script>
+</body>
+</html>
