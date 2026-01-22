@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DogBone 狗骨頭寵物美容 - 歡迎光臨</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; }
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); 
+            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; justify-content: center;
+        }
+        .container { 
+            max-width: 400px; width: 100%; background: white; padding: 35px 25px; 
+            border-radius: 30px; box-shadow: 0 15px 35px rgba(162, 210, 255, 0.2); 
+            border: 2px solid #eef7ff; text-align: center; box-sizing: border-box; 
+        }
+        .header-wrap { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .mini-icon { width: 50px; height: 50px; }
+        .logo-text { font-family: 'ZCOOL KuaiLe', cursive; font-size: 36px; color: var(--dark-blue); margin: 0; }
+        .sub-title { color: #888; font-size: 16px; font-weight: bold; margin-bottom: 30px; }
+
+        .menu-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 18px; margin-bottom: 15px;
+            background: white; color: var(--dark-blue);
+            text-decoration: none; font-size: 18px; font-weight: bold;
+            border: 2px solid var(--main-blue); border-radius: 50px;
+            transition: 0.3s; box-sizing: border-box;
+        }
+        .menu-btn:hover { background: var(--main-blue); color: white; transform: translateY(-3px); }
+        .menu-btn.primary { background: var(--main-blue); color: white; border: none; box-shadow: 0 5px 15px rgba(162, 210, 255, 0.4); }
+
+        .footer-info { margin-top: 30px; color: #ccc; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-area">
+        <div class="header-wrap">
+            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="dog">
+            <h1 class="logo-text">DogBone</h1>
+            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="cat">
+        </div>
+        <div class="sub-title">狗骨頭寵物美容</div>
+    </div>
+
+    <a href="notice.html" class="menu-btn primary">
+        🏮 農曆春節營業公告
+    </a>
+    <a href="contract.html" class="menu-btn">
+        ✒️ 簽署服務契約範本
+    </a>
+
+    <div class="footer-info">
+        專業洗澡．大美容．精緻小修<br>
+        © 2026 DogBone Grooming
+    </div>
+</div>
+
+</body>
+</html>
