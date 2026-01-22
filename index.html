@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DogBone 寵物美容 - 合約簽署</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f9f6f2; /* 溫暖的淺米色 */
+            color: #444;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: #d2a679; /* 狗骨頭主題咖啡色 */
+            margin: 0;
+        }
+
+        .contract-box {
+            height: 250px;
+            overflow-y: scroll;
+            border: 1px solid #eee;
+            padding: 15px;
+            background: #fafafa;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .signature-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-color: #fff;
+            border: 2px dashed #d2a679;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            touch-action: none; /* 防止手機簽名時網頁跟著滾動 */
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #clear-btn {
+            background-color: #eee;
+            color: #777;
+        }
+
+        #save-btn {
+            background-color: #d2a679;
+            color: white;
+        }
+
+        #save-btn:hover {
+            background-color: #bc8f62;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>DogBone</h1>
+        <p>寵物美容服務定型化契約</p>
+    </header>
+
+    <div class="contract-box">
+        <h4>【範例】服務約定條款</h4>
+        <p>1. 本店提供犬、貓美容服務，均依農業部定型化契約範本執行。</p>
+        <p>2. 飼主應如實告知寵物健康狀況、過敏史及攻擊性。</p>
+        <p>3. 美容過程中若發生緊急狀況，本店將優先聯繫飼主並視情況送醫。</p>
+        <p>4. 費用結算依現場公告之價目表為準...</p>
+        <p>(以下省略，屆時可填入完整法律條款內容)</p>
+    </div>
+
+    <div class="signature-wrapper">
+        <canvas id="signature-pad"></canvas>
+    </div>
+
+    <div class="button-group">
+        <button id="clear-btn">清除重簽</button>
+        <button id="save-btn">確認送出 (下載圖片)</button>
+    </div>
+</div>
+
+<footer>© 2026 DogBone Grooming</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        penColor: 'rgb(0, 0, 0)'
+    });
+
+    // 調整 Canvas 尺寸以適應不同螢幕
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear(); // 調整大小後會清除內容
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // 按鈕功能：清除
+    document.getElementById('clear-btn').addEventListener('click', () => {
+        signaturePad.clear();
+    });
+
+    // 按鈕功能：儲存簽名為圖片 (下載測試)
+    document.getElementById('save-btn').addEventListener('click', () => {
+        if (signaturePad.isEmpty()) {
+            alert("請先簽署您的姓名！");
+        } else {
+            const dataURL = signaturePad.toDataURL();
+            const link = document.createElement('a');
+            link.download = 'dogbone-signature.png';
+            link.href = dataURL;
+            link.click();
+            alert("簽名成功！在正式版本中，這張圖片會自動傳送給老闆。");
+        }
+    });
+</script>
+
+</body>
+</html>
