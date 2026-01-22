@@ -12,48 +12,60 @@
             margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; 
         }
         .container { 
-            max-width: 450px; width: 100%; background: white; padding: 25px; 
-            border-radius: 25px; box-shadow: 0 15px 35px rgba(162, 210, 255, 0.2); 
-            border: 2px solid #e0f2fe; box-sizing: border-box; 
+            max-width: 450px; width: 100%; background: white; padding: 20px; 
+            border-radius: 25px; box-shadow: 0 10px 30px rgba(162, 210, 255, 0.15); 
+            border: 2px solid #eef7ff; box-sizing: border-box; 
         }
-        .logo-area { text-align: center; margin-bottom: 20px; }
-        .logo-img { width: 120px; height: auto; margin-bottom: 10px; border-radius: 15px; }
-        .logo-text { font-family: 'ZCOOL KuaiLe', cursive; font-size: 32px; color: var(--dark-blue); margin: 0; text-shadow: 1px 1px #e0f2fe; }
-        .sub-title { color: #888; font-size: 16px; font-weight: bold; letter-spacing: 1px; margin-top: 5px; }
+        
+        /* 標題區塊優化：左右放圖標 */
+        .header-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+        .mini-icon { width: 45px; height: 45px; }
+        .logo-text { 
+            font-family: 'ZCOOL KuaiLe', cursive; font-size: 32px; 
+            color: var(--dark-blue); margin: 0; line-height: 1;
+        }
+        .sub-title { text-align: center; color: #888; font-size: 15px; font-weight: bold; margin-bottom: 20px; }
 
-        .form-section { margin-bottom: 20px; }
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; margin-bottom: 6px; color: var(--dark-blue); font-weight: bold; font-size: 14px; }
+        .form-section { margin-bottom: 15px; }
+        .input-group { margin-bottom: 10px; }
+        .input-group label { display: block; margin-bottom: 5px; color: var(--dark-blue); font-weight: bold; font-size: 14px; }
         .input-group input { 
-            width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; 
+            width: 100%; padding: 10px; border: 2px solid #f0f0f0; border-radius: 10px; 
             box-sizing: border-box; outline: none; font-size: 16px; transition: 0.3s;
         }
         .input-group input:focus { border-color: var(--main-blue); background: #fdfeff; }
 
         .contract-box { 
-            height: 100px; overflow-y: scroll; border: 1px solid #eee; padding: 12px; 
-            background: #fafafa; font-size: 12px; border-radius: 12px; margin-bottom: 15px; color: #666; 
+            height: 90px; overflow-y: scroll; border: 1px solid #eee; padding: 10px; 
+            background: #fafafa; font-size: 12px; border-radius: 10px; margin-bottom: 15px; color: #666; 
         }
 
-        .sig-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .sig-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
         .sig-title { color: var(--dark-blue); font-weight: bold; font-size: 14px; }
+        
         .signature-wrapper { 
-            width: 100%; height: 200px; background-color: #fff; 
-            border: 2px solid var(--main-blue); border-radius: 15px; 
+            width: 100%; height: 180px; background-color: #fff; 
+            border: 2px solid var(--main-blue); border-radius: 12px; 
             position: relative; touch-action: none; 
         }
-        canvas { width: 100%; height: 100%; border-radius: 15px; }
-        .sig-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ddd; pointer-events: none; font-size: 14px; }
+        canvas { width: 100%; height: 100%; border-radius: 12px; }
+        .sig-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ddd; pointer-events: none; font-size: 13px; }
 
         .btn-group { display: flex; gap: 10px; margin-top: 10px; }
         button { 
-            flex: 1; padding: 15px; border: none; border-radius: 50px; 
+            flex: 1; padding: 12px; border: none; border-radius: 50px; 
             font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s;
         }
         #clear-btn { background: #f5f5f5; color: #999; }
         #save-btn { background: var(--main-blue); color: white; }
 
-        .privacy-note { margin-top: 20px; padding: 0 10px; color: #aaa; font-size: 11px; line-height: 1.5; text-align: center; }
+        .privacy-note { margin-top: 15px; padding: 0 10px; color: #aaa; font-size: 10px; line-height: 1.4; text-align: center; }
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
     </style>
 </head>
@@ -61,35 +73,38 @@
 
 <div id="loading" class="loading-overlay">
     <div style="font-size: 40px; animation: bounce 1s infinite;">🦴</div>
-    <p style="color: var(--dark-blue); font-weight: bold;">正在安全傳送中...</p>
+    <p style="color: var(--dark-blue); font-weight: bold;">傳送中...</p>
 </div>
 
 <div class="container">
     <div class="logo-area">
-        <img class="logo-img" src="https://img.freepik.com/free-vector/cute-dog-cat-sitting-together-cartoon-vector-illustration_138676-3112.jpg?w=200" alt="DogBone Logo">
-        <h1 class="logo-text">DogBone</h1>
+        <div class="header-wrap">
+            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="dog">
+            <h1 class="logo-text">DogBone</h1>
+            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="cat">
+        </div>
         <div class="sub-title">狗骨頭寵物美容</div>
     </div>
 
     <div class="form-section">
         <div class="input-group">
             <label>👤 主人姓名</label>
-            <input type="text" id="owner-name" placeholder="請輸入您的姓名" maxlength="15">
+            <input type="text" id="owner-name" placeholder="請輸入姓名" maxlength="15">
         </div>
         <div class="input-group">
             <label>🐶 寶貝名字</label>
-            <input type="text" id="pet-name" placeholder="寵物叫什麼名字呢？" maxlength="15">
+            <input type="text" id="pet-name" placeholder="寵物叫什麼名字？" maxlength="15">
         </div>
         <div class="input-group">
             <label>📱 聯絡電話</label>
-            <input type="tel" id="owner-phone" placeholder="填寫您的電話號碼" maxlength="15">
+            <input type="tel" id="owner-phone" placeholder="填寫電話號碼" maxlength="15">
         </div>
     </div>
 
     <div class="contract-box">
         <strong>【服務契約摘要】</strong><br>
         1. 本店依農業部定型化契約範本執行。<br>
-        2. 簽署即代表您確認寵物無重大隱疾且已閱畢條款。<br>
+        2. 簽署即代表您確認寵物無重大隱疾。<br>
         3. 如需緊急送醫，將優先處理並通知飼主。
     </div>
 
@@ -97,7 +112,7 @@
         <span class="sig-title">✒️ 客戶簽署</span>
     </div>
     <div class="signature-wrapper">
-        <div class="sig-hint" id="sig-hint">在此處手寫簽名</div>
+        <div class="sig-hint" id="sig-hint">請在此手寫簽名</div>
         <canvas id="signature-pad"></canvas>
     </div>
 
@@ -111,11 +126,8 @@
     </div>
 </div>
 
-<p style="color: #ccc; font-size: 11px; margin-top: 20px;">© 2026 DogBone Grooming. All rights reserved.</p>
-
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <script>
-    // 請確認下方的 scriptURL 是否為您最新的 Google Apps Script 部署網址
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx0AV8k6Qn-i-6uILBE5bcBNg5oymzSDSF8sXux5Su-QqFC7M208uILNeCTAeyvAw6XVQ/exec';
     
     const canvas = document.getElementById('signature-pad');
@@ -149,12 +161,6 @@
             return;
         }
 
-        const phoneRule = /^[0-9+-\s]+$/;
-        if (!phoneRule.test(phone)) {
-            alert("電話格式好像有點問題，請檢查一下。");
-            return;
-        }
-
         document.getElementById('loading').style.display = 'flex';
         this.disabled = true;
         
@@ -174,7 +180,7 @@
         .catch(error => {
             document.getElementById('loading').style.display = 'none';
             this.disabled = false;
-            alert("傳送失敗，請確認網路連線。");
+            alert("傳送失敗，請重試。");
         });
     });
 </script>
