@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DogBone 狗骨頭寵物美容 - 農曆年公告</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --holiday-red: #ff8b8b; --work-green: #97e0b5; --warning-orange: #ffb563; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 500px; width: 100%; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(162, 210, 255, 0.15); border: 2px solid #eef7ff; box-sizing: border-box; }
+        
+        .header-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .mini-icon { width: 35px; height: 35px; }
+        .logo-text { font-family: 'ZCOOL KuaiLe', cursive; font-size: 28px; color: var(--dark-blue); margin: 0; }
+        .title-box { text-align: center; background: var(--main-blue); color: white; padding: 10px; border-radius: 15px; margin-bottom: 20px; font-weight: bold; }
+
+        /* 行事曆樣式 */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .day-header { font-weight: bold; color: var(--dark-blue); padding-bottom: 10px; font-size: 14px; }
+        .day { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 10px; font-size: 14px; position: relative; border: 1px solid #f0f0f0; }
+        .day .date { font-weight: bold; }
+        .day .note { font-size: 9px; line-height: 1; margin-top: 2px; }
+
+        /* 特殊日期配色 */
+        .not-this-month { color: #ccc; border: none; }
+        .holiday { background-color: var(--holiday-red); color: white; border: none; } /* 放假 */
+        .warning { background-color: var(--warning-orange); color: white; border: none; } /* 限制/加價期 */
+        .work { background-color: var(--work-green); color: white; border: none; } /* 開工 */
+        .sunday { color: #ff5e5e; }
+
+        /* 說明欄 */
+        .legend { margin-top: 25px; background: #fafafa; padding: 15px; border-radius: 15px; font-size: 13px; color: #555; line-height: 1.8; }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-area">
+        <div class="header-wrap">
+            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="dog">
+            <h1 class="logo-text">DogBone</h1>
+            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="cat">
+        </div>
+        <div class="title-box">🏮 2026 農曆春節營業公告 🏮</div>
+    </div>
+
+    <div class="calendar-grid">
+        <div class="day-header sunday">日</div><div class="day-header">一</div><div class="day-header">二</div><div class="day-header">三</div><div class="day-header">四</div><div class="day-header">五</div><div class="day-header">六</div>
+        
+        <div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div>
+        <div class="day"><span class="date">1/24</span></div>
+        
+        <div class="day sunday"><span class="date">25</span></div><div class="day"><span class="date">26</span></div><div class="day"><span class="date">27</span></div><div class="day"><span class="date">28</span></div><div class="day"><span class="date">29</span></div><div class="day"><span class="date">30</span></div><div class="day"><span class="date">31</span></div>
+
+        <div class="day sunday"><span class="date">2/1</span></div><div class="day"><span class="date">2</span></div><div class="day"><span class="date">3</span></div><div class="day"><span class="date">4</span></div><div class="day"><span class="date">5</span></div><div class="day"><span class="date">6</span></div><div class="day"><span class="date">7</span></div>
+
+        <div class="day sunday"><span class="date">8</span></div><div class="day"><span class="date">9</span></div><div class="day"><span class="date">10</span></div><div class="day"><span class="date">11</span></div>
+        <div class="day warning"><span class="date">12</span><span class="note">限包月</span></div>
+        <div class="day warning"><span class="date">13</span><span class="note">限小洗</span></div>
+        <div class="day warning"><span class="date">14</span><span class="note">限小洗</span></div>
+
+        <div class="day warning sunday"><span class="date">15</span><span class="note">限小洗</span></div>
+        <div class="day holiday"><span class="date">16</span><span class="note">除夕</span></div>
+        <div class="day holiday"><span class="date">17</span><span class="note">初一</span></div>
+        <div class="day holiday"><span class="date">18</span><span class="note">初二</span></div>
+        <div class="day holiday"><span class="date">19</span><span class="note">初三</span></div>
+        <div class="day holiday"><span class="date">20</span><span class="note">初四</span></div>
+        <div class="day holiday"><span class="date">21</span><span class="note">初五</span></div>
+
+        <div class="day work sunday"><span class="date">22</span><span class="note">開工</span></div>
+        <div class="day"><span class="date">23</span></div>
+        <div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div>
+    </div>
+
+    <div class="legend">
+        <strong>📌 營業注意事項：</strong><br>
+        <div class="legend-item"><div class="dot" style="background:var(--warning-orange)"></div> 2/12 - 2/15：不收包月寵物</div>
+        <div class="legend-item"><div class="dot" style="background:var(--warning-orange)"></div> 2/13 - 2/15：不收大美容，洗澡加收 $100-$300</div>
+        <div class="legend-item"><div class="dot" style="background:var(--holiday-red)"></div> 2/16(除夕) - 2/21(初五)：春節放假公休</div>
+        <div class="legend-item"><div class="dot" style="background:var(--work-green)"></div> 2/22(初六)：恢復正常營業</div>
+        <p style="margin-top: 10px; font-size: 11px; color: #888;">* 忙碌期間請提早預約，DogBone 祝您新年快樂！</p>
+    </div>
+</div>
+
+<p style="color: #ccc; font-size: 11px; margin-top: 20px;">© 2026 DogBone Grooming</p>
+
+</body>
+</html>
