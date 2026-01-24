@@ -3,55 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DogBone 狗骨頭寵物美容 - 手機版公告</title>
+    <title>DogBone 狗骨頭寵物美容 - 春節公告</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --holiday-red: #d90429; --work-green: #2d6a4f; --light-orange: #ffe8cc; --text-orange: #d97706; --tag-orange: #f59e0b; }
         
         body { 
-            font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; 
+            font-family: 'Noto Sans TC', sans-serif; 
             background-color: var(--bg-light); margin: 0; padding: 10px; 
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* 容器改為手機寬度 100% */
+        /* 核心修復：使用 box-sizing 確保 padding 不會撐開寬度 */
         .container { 
             max-width: 500px; width: 100%; height: auto;
-            background: white; padding: 15px; 
-            border: 2px solid #eef7ff; border-radius: 25px; box-sizing: border-box; 
-            box-shadow: 0 10px 30px rgba(162, 210, 255, 0.15);
+            background: white; padding: 12px; 
+            border: 2px solid #eef7ff; border-radius: 20px; box-sizing: border-box; 
+            box-shadow: 0 8px 25px rgba(162, 210, 255, 0.15);
         }
         
-        /* 標題區縮小適配手機 */
-        .header-wrap { 
-            display: flex; align-items: center; justify-content: center; 
-            gap: 10px; margin-bottom: 8px; white-space: nowrap;
-        }
+        .header-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
         .mini-icon { width: 35px; height: 35px; }
         .logo-text { font-weight: 900; font-size: 24px; color: var(--dark-blue); margin: 0; }
         
         .title-box { 
             text-align: center; background: var(--main-blue); color: white; 
-            padding: 10px; border-radius: 12px; margin-bottom: 15px; 
+            padding: 8px; border-radius: 12px; margin-bottom: 15px; 
             font-weight: 900; font-size: 16px; letter-spacing: 1px;
         }
 
-        /* 日曆區：改為 100% 寬度，字體縮小 */
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; width: 100%; }
-        .day-header { font-weight: 900; color: var(--dark-blue); padding-bottom: 5px; font-size: 13px; }
+        /* 行事曆修復：使用 1fr 確保七等分，gap 縮小避免撐開 */
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 3px; 
+            text-align: center; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .day-header { font-weight: 900; color: var(--dark-blue); padding-bottom: 5px; font-size: 12px; }
         
         .day { 
             aspect-ratio: 1 / 1.1;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            padding: 2px; border-radius: 8px; border: 1px solid #f2f2f2; box-sizing: border-box;
+            padding: 2px; border-radius: 6px; border: 1px solid #f2f2f2; box-sizing: border-box;
+            min-width: 0; /* 防止子元素撐開 grid */
         }
-        .day .date { font-weight: 900; font-size: 13px; margin-bottom: 1px; }
-        .day .note { font-size: 7px; line-height: 1.1; font-weight: 700; color: #444; transform: scale(0.9); }
+        
+        .day .date { font-weight: 900; font-size: 11px; margin-bottom: 1px; }
+        
+        /* 針對備註文字進行縮放優化 */
+        .day .note { 
+            font-size: 8px; line-height: 1; margin-top: 1px; 
+            font-weight: 700; color: #444; 
+            display: block;
+            transform: scale(0.85); /* 稍微縮小字體以適應寬度 */
+            white-space: nowrap;
+        }
 
         .price-tag {
             background-color: var(--tag-orange); color: white;
-            padding: 1px 3px; border-radius: 3px; font-size: 6px;
-            margin-top: 1px; font-weight: 900; white-space: nowrap; transform: scale(0.85);
+            padding: 1px 2px; border-radius: 3px; font-size: 7px;
+            margin-top: 1px; font-weight: 900; white-space: nowrap;
+            transform: scale(0.8);
         }
 
         .not-this-month { visibility: hidden; }
@@ -60,17 +75,12 @@
         .work { background-color: #d8f3dc; color: var(--work-green); border: 1px solid var(--work-green); } 
         .sunday { color: #ff5e5e; }
 
-        /* 說明欄：改為單欄縱向堆疊 */
+        /* 說明欄優化 */
         .legend { 
             margin-top: 15px; background: #fafafa; padding: 12px; 
             border-radius: 15px; border: 1px solid #eee;
         }
-        .legend-content {
-            display: flex;
-            flex-direction: column; /* 強制縱向 */
-            gap: 10px;
-        }
-        .legend-column { display: flex; flex-direction: column; gap: 8px; }
+        .legend-content { display: flex; flex-direction: column; gap: 8px; }
         .legend-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #333; line-height: 1.4; }
         .dot { width: 12px; height: 12px; border-radius: 3px; margin-top: 3px; flex-shrink: 0; }
         
@@ -105,11 +115,10 @@
         <div class="day sunday"><span class="date">2/8</span></div><div class="day"><span class="date">2/9</span></div><div class="day"><span class="date">2/10</span></div><div class="day"><span class="date">2/11</span></div>
         
         <div class="day warning"><span class="date">2/12</span><span class="note">不收包月</span></div>
-        
-        <div class="day warning"><span class="date">2/13</span><span class="note">不收包月/大美</span><div class="price-tag">加價 $100-$300</div></div>
-        <div class="day warning"><span class="date">2/14</span><span class="note">不收包月/大美</span><div class="price-tag">加價 $100-$300</div></div>
+        <div class="day warning"><span class="date">2/13</span><span class="note">不收包月/大美</span><div class="price-tag">加價$100-300</div></div>
+        <div class="day warning"><span class="date">2/14</span><span class="note">不收包月/大美</span><div class="price-tag">加價$100-300</div></div>
 
-        <div class="day warning sunday"><span class="date">2/15</span><span class="note">不收包月/大美</span><div class="price-tag">加價 $100-$300</div></div>
+        <div class="day warning sunday"><span class="date">2/15</span><span class="note">不收包月/大美</span><div class="price-tag">加價$100-300</div></div>
         
         <div class="day holiday-text"><span class="date">2/16</span><span class="note">除夕</span></div>
         <div class="day holiday-text"><span class="date">2/17</span><span class="note">初一</span></div>
@@ -125,12 +134,10 @@
 
     <div class="legend">
         <div class="legend-content">
-            <div class="legend-column">
-                <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div><strong>2/12 - 2/15：</strong>不收包月寵物服務。</div></div>
-                <div class="legend-item"><div class="dot" style="background:var(--tag-orange);"></div> <div><strong>2/13 - 2/15：</strong>不收大美容，僅提供洗澡服務；洗澡加價 $100-$300。</div></div>
-                <div class="legend-item"><div class="dot" style="border: 2px solid var(--holiday-red)"></div> <div><strong>2/16 - 2/21：</strong>春節假期店休。</div></div>
-                <div class="legend-item"><div class="dot" style="background:#d8f3dc; border: 2px solid var(--work-green)"></div> <div><strong>2/22(初六)：</strong>正式開工！開工大吉！</div></div>
-            </div>
+            <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div><strong>2/12 - 2/15：</strong>不收包月寵物服務。</div></div>
+            <div class="legend-item"><div class="dot" style="background:var(--tag-orange);"></div> <div><strong>2/13 - 2/15：</strong>不收大美容，僅提供洗澡服務；洗澡加價 $100-$300。</div></div>
+            <div class="legend-item"><div class="dot" style="border: 1px solid var(--holiday-red)"></div> <div><strong>2/16 - 2/21：</strong>春節假期店休。</div></div>
+            <div class="legend-item"><div class="dot" style="background:#d8f3dc; border: 1px solid var(--work-green)"></div> <div><strong>2/22(初六)：</strong>正式開工！開工大吉！</div></div>
         </div>
         <div class="important-note">
             📌 春節後包月及單次價錢將微調；單次、包月及美容服務將依政府規定填寫 [寵物美容定型化契約] 春節後開始實施。敬請見諒！
