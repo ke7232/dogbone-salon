@@ -5,101 +5,63 @@
     <title>DogBone 狗骨頭寵物美容 - A3 印刷輸出版</title>
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #ffffff; --holiday-red: #d90429; --work-green: #2d6a4f; --light-orange: #ffe8cc; --text-orange: #d97706; }
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #ffffff; --holiday-red: #d90429; --work-green: #2d6a4f; --light-orange: #ffe8cc; --text-orange: #d97706; --tag-orange: #f59e0b; }
         
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            background-color: white; 
-            margin: 0; 
-            padding: 40px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: white; margin: 0; padding: 30px; display: flex; flex-direction: column; align-items: center; }
 
-        /* 針對 A3 寬度進行擴展 */
         .container { 
-            max-width: 1100px; 
-            width: 100%; 
-            background: white; 
-            padding: 40px; 
-            border: 4px solid #eef7ff; 
-            border-radius: 40px;
-            box-sizing: border-box; 
+            max-width: 1100px; width: 100%; background: white; padding: 40px; 
+            border: 4px solid #eef7ff; border-radius: 40px; box-sizing: border-box; 
         }
         
         .header-wrap { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px; }
-        .mini-icon { width: 60px; height: 60px; }
-        .logo-text { font-family: 'ZCOOL KuaiLe', cursive; font-size: 60px; color: var(--dark-blue); margin: 0; }
+        .mini-icon { width: 70px; height: 70px; }
+        .logo-text { font-family: 'ZCOOL KuaiLe', cursive; font-size: 64px; color: var(--dark-blue); margin: 0; }
         
         .title-box { 
-            text-align: center; 
-            background: var(--main-blue); 
-            color: white; 
-            padding: 20px; 
-            border-radius: 20px; 
-            margin-bottom: 40px; 
-            font-weight: bold; 
-            font-size: 36px; 
+            text-align: center; background: var(--main-blue); color: white; 
+            padding: 20px; border-radius: 20px; margin-bottom: 30px; 
+            font-weight: bold; font-size: 42px; box-shadow: 0 4px 10px rgba(162, 210, 255, 0.3);
         }
 
-        /* 日曆格點放大 */
-        .calendar-grid { 
-            display: grid; 
-            grid-template-columns: repeat(7, 1fr); 
-            gap: 10px; 
-            text-align: center; 
-            width: 100%; 
-        }
-        .day-header { font-weight: bold; color: var(--dark-blue); padding-bottom: 20px; font-size: 28px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; text-align: center; width: 100%; }
+        .day-header { font-weight: bold; color: var(--dark-blue); padding-bottom: 20px; font-size: 32px; }
+        
         .day { 
-            aspect-ratio: 1/1; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            border-radius: 15px; 
-            border: 2px solid #f2f2f2; 
+            aspect-ratio: 1/1.1; display: flex; flex-direction: column; 
+            justify-content: flex-start; align-items: center; padding: 15px 5px;
+            border-radius: 15px; border: 2px solid #f2f2f2; box-sizing: border-box;
         }
-        .day .date { font-weight: bold; font-size: 24px; }
-        .day .note { font-size: 16px; line-height: 1.2; margin-top: 5px; font-weight: bold; }
+        .day .date { font-weight: bold; font-size: 30px; margin-bottom: 8px; }
+        .day .note { font-size: 16px; line-height: 1.3; font-weight: bold; }
 
-        /* 配色與狀態 */
+        /* 長方形加價標籤 */
+        .price-tag {
+            background-color: var(--tag-orange);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 5px;
+            white-space: nowrap;
+        }
+
         .not-this-month { color: #ccc; border: none; }
         .holiday-text { color: var(--holiday-red); border: 2px solid #ffe5e5; background-color: #fffafa; } 
         .warning { background-color: var(--light-orange); color: var(--text-orange); border: 2px solid #ffdec2; } 
         .work { background-color: #d8f3dc; color: var(--work-green); border: 2px solid var(--work-green); } 
         .sunday { color: #ff5e5e; }
 
-        /* 下方說明欄放大 */
-        .legend { 
-            margin-top: 50px; 
-            background: #fafafa; 
-            padding: 30px; 
-            border-radius: 20px; 
-            font-size: 24px; 
-            color: #333; 
-            line-height: 1.8; 
-            text-align: left; 
-        }
-        .legend-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; }
+        .legend { margin-top: 40px; background: #fafafa; padding: 30px; border-radius: 20px; font-size: 26px; color: #333; line-height: 1.8; text-align: left; }
+        .legend-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 12px; }
         .dot { width: 25px; height: 25px; border-radius: 5px; margin-top: 10px; flex-shrink: 0; }
         
-        .important-note { 
-            color: #000; 
-            font-weight: bold; 
-            margin-top: 20px; 
-            padding-top: 20px; 
-            border-top: 2px dashed #ddd; 
-            font-size: 22px; 
-        }
-        
-        .disclaimer { font-size: 18px; color: #777; margin-top: 20px; font-style: italic; }
+        .important-note { color: #000; font-weight: bold; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #ddd; font-size: 24px; }
+        .disclaimer { font-size: 18px; color: #777; margin-top: 15px; font-style: italic; }
 
-        /* 列印設定：隱藏背景顏色問題 */
         @media print {
             body { padding: 0; }
-            .container { border: none; box-shadow: none; }
+            .container { border: 4px solid #eef7ff; box-shadow: none; width: 100%; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
@@ -127,11 +89,25 @@
         <div class="day sunday"><span class="date">2/1</span></div><div class="day"><span class="date">2/2</span></div><div class="day"><span class="date">2/3</span></div><div class="day"><span class="date">2/4</span></div><div class="day"><span class="date">2/5</span></div><div class="day"><span class="date">2/6</span></div><div class="day"><span class="date">2/7</span></div>
 
         <div class="day sunday"><span class="date">2/8</span></div><div class="day"><span class="date">2/9</span></div><div class="day"><span class="date">2/10</span></div><div class="day"><span class="date">2/11</span></div>
+        
         <div class="day warning"><span class="date">2/12</span><span class="note">不收包月<br>不收大美</span></div>
-        <div class="day warning"><span class="date">2/13</span><span class="note">不收包月<br>不收大美</span></div>
-        <div class="day warning"><span class="date">2/14</span><span class="note">不收包月<br>不收大美</span></div>
+        
+        <div class="day warning">
+            <span class="date">2/13</span>
+            <span class="note">不收包月/大美</span>
+            <div class="price-tag">加價 $100-$300</div>
+        </div>
+        <div class="day warning">
+            <span class="date">2/14</span>
+            <span class="note">不收包月/大美</span>
+            <div class="price-tag">加價 $100-$300</div>
+        </div>
+        <div class="day warning sunday">
+            <span class="date">2/15</span>
+            <span class="note">不收包月/大美</span>
+            <div class="price-tag">加價 $100-$300</div>
+        </div>
 
-        <div class="day warning sunday"><span class="date">2/15</span><span class="note">不收包月<br>不收大美</span></div>
         <div class="day holiday-text"><span class="date">2/16</span><span class="note">除夕</span></div>
         <div class="day holiday-text"><span class="date">2/17</span><span class="note">初一</span></div>
         <div class="day holiday-text"><span class="date">2/18</span><span class="note">初二</span></div>
@@ -146,8 +122,8 @@
 
     <div class="legend">
         <strong>📌 春節公告詳情：</strong><br>
-        <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div>2/12 - 2/15：不收包月寵物。</div></div>
-        <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div>2/13 - 2/15：不收大美容，僅提供洗澡服務，洗澡加價 $100-$300。</div></div>
+        <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div>2/12 - 2/15：不收包月寵物、不收大美容。</div></div>
+        <div class="legend-item"><div class="dot" style="background:var(--tag-orange);"></div> <div>2/13 - 2/15：僅提供洗澡服務，<strong>洗澡加價 $100-$300</strong>。</div></div>
         <div class="legend-item"><div class="dot" style="border: 2px solid var(--holiday-red)"></div> <div>2/16(除夕) - 2/21(初五)：春節假期公休。</div></div>
         <div class="legend-item"><div class="dot" style="background:#d8f3dc; border: 2px solid var(--work-green)"></div> <div><strong>2/22(初六)：</strong>正式開工！開工大吉！</div></div>
         
@@ -161,7 +137,7 @@
     </div>
 </div>
 
-<p style="text-align: center; color: #888; font-size: 18px; margin-top: 30px;">© 2026 DogBone Grooming</p>
+<p style="text-align: center; color: #888; font-size: 20px; margin-top: 20px;">© 2026 DogBone Grooming</p>
 
 </body>
 </html>
