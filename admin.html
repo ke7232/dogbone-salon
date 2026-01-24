@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DogBone - 行動後台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; }
+        
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); 
+            margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* 登入介面優化 */
+        #login-screen { 
+            width: 90%; max-width: 350px; text-align: center; padding-top: 80px; 
+        }
+        .login-card {
+            background: var(--white); padding: 30px 20px; border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(162, 210, 255, 0.2); border: 2px solid #eef7ff;
+        }
+
+        .input-pwd { 
+            width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #ddd; 
+            font-size: 18px; margin-bottom: 20px; box-sizing: border-box; text-align: center; outline: none;
+        }
+        .btn-main { 
+            width: 100%; padding: 15px; background: var(--dark-blue); color: white; 
+            border: none; border-radius: 50px; font-weight: 900; font-size: 18px; cursor: pointer;
+        }
+
+        /* 主內容區 */
+        #admin-content { width: 100%; max-width: 500px; display: none; }
+        
+        .sticky-header {
+            position: sticky; top: 0; background: var(--bg-light); 
+            padding: 10px 0; z-index: 100; width: 100%;
+        }
+
+        h1 { font-weight: 900; color: var(--dark-blue); font-size: 24px; margin: 0 0 5px 0; text-align: center; }
+        
+        .search-bar { 
+            width: 100%; padding: 12px 15px; border: 2px solid var(--main-blue); 
+            border-radius: 15px; box-sizing: border-box; font-size: 16px; outline: none;
+            box-shadow: 0 4px 12px rgba(162, 210, 255, 0.1);
+        }
+
+        /* 卡片式清單 */
+        .record-card {
+            background: var(--white); border-radius: 20px; padding: 15px;
+            margin-bottom: 12px; border: 1px solid #eef7ff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        
+        .card-row { display: flex; justify-content: space-between; align-items: center; }
+        .label { color: #888; font-size: 12px; font-weight: bold; }
+        .value { color: #333; font-size: 15px; font-weight: 700; }
+        .owner-name { color: var(--dark-blue); font-size: 18px; font-weight: 900; }
+        .time-stamp { color: #aaa; font-size: 11px; }
+
+        .btn-view { 
+            background: #f0f7ff; color: var(--dark-blue); padding: 10px; 
+            text-align: center; text-decoration: none; border-radius: 12px; 
+            font-size: 14px; font-weight: 900; margin-top: 5px; border: 1px solid var(--main-blue);
+        }
+
+        .loader { text-align: center; padding: 40px; color: var(--dark-blue); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="login-card">
+        <div style="font-size: 50px; margin-bottom: 10px;">🐕</div>
+        <h1>DogBone 管理登入</h1>
+        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">請輸入密碼管理簽名紀錄</p>
+        <input type="password" id="pwd-input" class="input-pwd" placeholder="輸入密碼">
+        <button onclick="checkPwd()" class="btn-main">確認登入</button>
+    </div>
+</div>
+
+<div id="admin-content">
+    <div class="sticky-header">
+        <h1>簽名紀錄查詢</h1>
+        <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋姓名、寵物、電話..." onkeyup="filterCards()">
+    </div>
+
+    <div id="loader" class="loader">正在叼回資料... 🐾</div>
+    
+    <div id="list-container"></div>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx0AV8k6Qn-i-6uILBE5bcBNg5oymzSDSF8sXux5Su-QqFC7M208uILNeCTAeyvAw6XVQ/exec';
+    const MASTER_PWD = '888'; 
+
+    function checkPwd() {
+        if (document.getElementById('pwd-input').value === MASTER_PWD) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'block';
+            fetchData();
+        } else {
+            alert('密碼錯誤！🐾');
+        }
+    }
+
+    function fetchData() {
+        fetch(scriptURL)
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('list-container');
+                container.innerHTML = '';
+                
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">目前尚無紀錄</p>';
+                } else {
+                    data.reverse().forEach(row => {
+                        container.innerHTML += `
+                            <div class="record-card">
+                                <div class="card-row">
+                                    <span class="owner-name">👤 ${row.owner}</span>
+                                    <span class="time-stamp">${row.time}</span>
+                                </div>
+                                <div class="card-row">
+                                    <span class="label">🐶 寵物名字</span>
+                                    <span class="value">${row.pet}</span>
+                                </div>
+                                <div class="card-row">
+                                    <span class="label">📱 聯絡電話</span>
+                                    <span class="value">${row.phone}</span>
+                                </div>
+                                <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('loader').style.display = 'none';
+            })
+            .catch(err => alert('連線失敗，請檢查網路。'));
+    }
+
+    function filterCards() {
+        const input = document.getElementById('search-input').value.toUpperCase();
+        const cards = document.getElementsByClassName('record-card');
+        for (let i = 0; i < cards.length; i++) {
+            const text = cards[i].innerText.toUpperCase();
+            cards[i].style.display = text.includes(input) ? "" : "none";
+        }
+    }
+</script>
+</body>
+</html>
