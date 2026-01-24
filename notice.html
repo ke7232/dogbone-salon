@@ -17,9 +17,9 @@
 
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
         .day-header { font-weight: bold; color: var(--dark-blue); padding-bottom: 10px; font-size: 14px; }
-        .day { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; font-size: 13px; position: relative; border: 1px solid #f0f0f0; }
+        .day { aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 8px; font-size: 11px; position: relative; border: 1px solid #f0f0f0; }
         .day .date { font-weight: bold; }
-        .day .note { font-size: 9px; line-height: 1.1; margin-top: 2px; font-weight: bold; }
+        .day .note { font-size: 8px; line-height: 1.1; margin-top: 2px; font-weight: bold; }
 
         .not-this-month { color: #ccc; border: none; }
         .holiday-text { color: var(--holiday-red); border: 1px solid #ffe5e5; } 
@@ -31,7 +31,6 @@
         .legend-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
         .dot { width: 12px; height: 12px; border-radius: 3px; margin-top: 5px; flex-shrink: 0; }
         
-        /* 權利說明文字 */
         .disclaimer { font-size: 11px; color: #999; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #eee; font-style: italic; }
     </style>
 </head>
@@ -53,25 +52,25 @@
         <div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div>
         <div class="day"><span class="date">1/24</span></div>
         
-        <div class="day sunday"><span class="date">25</span></div><div class="day"><span class="date">26</span></div><div class="day"><span class="date">27</span></div><div class="day"><span class="date">28</span></div><div class="day"><span class="date">29</span></div><div class="day"><span class="date">30</span></div><div class="day"><span class="date">31</span></div>
+        <div class="day sunday"><span class="date">1/25</span></div><div class="day"><span class="date">1/26</span></div><div class="day"><span class="date">1/27</span></div><div class="day"><span class="date">1/28</span></div><div class="day"><span class="date">1/29</span></div><div class="day"><span class="date">1/30</span></div><div class="day"><span class="date">1/31</span></div>
 
-        <div class="day sunday"><span class="date">2/1</span></div><div class="day"><span class="date">2</span></div><div class="day"><span class="date">3</span></div><div class="day"><span class="date">4</span></div><div class="day"><span class="date">5</span></div><div class="day"><span class="date">6</span></div><div class="day"><span class="date">7</span></div>
+        <div class="day sunday"><span class="date">2/1</span></div><div class="day"><span class="date">2/2</span></div><div class="day"><span class="date">2/3</span></div><div class="day"><span class="date">2/4</span></div><div class="day"><span class="date">2/5</span></div><div class="day"><span class="date">2/6</span></div><div class="day"><span class="date">2/7</span></div>
 
-        <div class="day sunday"><span class="date">8</span></div><div class="day"><span class="date">9</span></div><div class="day"><span class="date">10</span></div><div class="day"><span class="date">11</span></div>
-        <div class="day warning"><span class="date">12</span><span class="note">不收包月<br>不收大美</span></div>
-        <div class="day warning"><span class="date">13</span><span class="note">不收包月<br>不收大美<br>加價100-300</span></div>
-        <div class="day warning"><span class="date">14</span><span class="note">不收包月<br>不收大美<br>加價100-300</span></div>
+        <div class="day sunday"><span class="date">2/8</span></div><div class="day"><span class="date">2/9</span></div><div class="day"><span class="date">2/10</span></div><div class="day"><span class="date">2/11</span></div>
+        <div class="day warning"><span class="date">2/12</span><span class="note">不收包月<br>不收大美</span></div>
+        <div class="day warning"><span class="date">2/13</span><span class="note">不收包月<br>不收大美<br>加價100-300</span></div>
+        <div class="day warning"><span class="date">2/14</span><span class="note">不收包月<br>不收大美<br>加價100-300</span></div>
 
-        <div class="day warning sunday"><span class="date">15</span><span class="note">不收包月<br>不收大美<br>加價100-300</span></div>
-        <div class="day holiday-text"><span class="date">16</span><span class="note">除夕</span></div>
-        <div class="day holiday-text"><span class="date">17</span><span class="note">初一</span></div>
-        <div class="day holiday-text"><span class="date">18</span><span class="note">初二</span></div>
-        <div class="day holiday-text"><span class="date">19</span><span class="note">初三</span></div>
-        <div class="day holiday-text"><span class="date">20</span><span class="note">初四</span></div>
-        <div class="day holiday-text"><span class="date">21</span><span class="note">初五</span></div>
+        <div class="day warning sunday"><span class="date">2/15</span><span class="note">不收包月<br>不收大美<br>加價100-300</span></div>
+        <div class="day holiday-text"><span class="date">2/16</span><span class="note">除夕</span></div>
+        <div class="day holiday-text"><span class="date">2/17</span><span class="note">初一</span></div>
+        <div class="day holiday-text"><span class="date">2/18</span><span class="note">初二</span></div>
+        <div class="day holiday-text"><span class="date">2/19</span><span class="note">初三</span></div>
+        <div class="day holiday-text"><span class="date">2/20</span><span class="note">初四</span></div>
+        <div class="day holiday-text"><span class="date">2/21</span><span class="note">初五</span></div>
 
-        <div class="day work sunday"><span class="date">22</span><span class="note">開工大吉</span></div>
-        <div class="day"><span class="date">23</span></div>
+        <div class="day work sunday"><span class="date">2/22</span><span class="note">開工大吉</span></div>
+        <div class="day"><span class="date">2/23</span></div>
         <div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div><div class="day not-this-month"></div>
     </div>
 
