@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DogBone - 行動後台</title>
+    <title>DogBone - 管理後台 (測試版)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; }
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; --test-red: #ff4d4d; --highlight-red: #e63946; }
         
         body { 
             font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); 
             margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
+            position: relative; overflow-x: hidden;
         }
 
-        /* 登入介面 */
-        #login-screen { width: 90%; max-width: 350px; text-align: center; padding-top: 80px; }
+        /* 右上角測試版標籤 */
+        .test-badge {
+            position: fixed; top: 15px; right: -35px;
+            background-color: var(--test-red); color: white;
+            padding: 5px 40px; font-size: 12px; font-weight: 900;
+            transform: rotate(45deg); z-index: 1001; pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #login-screen { width: 95%; max-width: 350px; text-align: center; padding-top: 80px; }
         .login-card {
             background: var(--white); padding: 30px 20px; border-radius: 25px;
             box-shadow: 0 10px 25px rgba(162, 210, 255, 0.2); border: 2px solid #eef7ff;
         }
-
         .input-pwd { 
             width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #ddd; 
             font-size: 18px; margin-bottom: 20px; box-sizing: border-box; text-align: center; outline: none;
@@ -29,7 +37,6 @@
             border: none; border-radius: 50px; font-weight: 900; font-size: 18px; cursor: pointer;
         }
 
-        /* 主內容區 */
         #admin-content { width: 100%; max-width: 500px; display: none; }
         .sticky-header { position: sticky; top: 0; background: var(--bg-light); padding: 10px 0; z-index: 100; width: 100%; }
         h1 { font-weight: 900; color: var(--dark-blue); font-size: 24px; margin: 0 0 5px 0; text-align: center; }
@@ -38,23 +45,9 @@
             border-radius: 15px; box-sizing: border-box; font-size: 16px; outline: none;
         }
 
-        /* --- ✨ 動態載入動畫 ✨ --- */
-        .loader-wrap { 
-            display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; padding: 60px 0; 
-        }
-        .bone-spinner {
-            font-size: 50px;
-            animation: spin-and-bounce 1.5s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin-and-bounce {
-            0% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(90deg); }
-            50% { transform: translateY(0) rotate(180deg); }
-            75% { transform: translateY(-15px) rotate(270deg); }
-            100% { transform: translateY(0) rotate(360deg); }
-        }
+        .loader-wrap { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0; }
+        .bone-spinner { font-size: 50px; animation: spin-and-bounce 1.5s linear infinite; display: inline-block; }
+        @keyframes spin-and-bounce { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-15px) rotate(90deg); } 50% { transform: translateY(0) rotate(180deg); } 75% { transform: translateY(-15px) rotate(270deg); } 100% { transform: translateY(0) rotate(360deg); } }
         .loader-text { color: var(--dark-blue); font-weight: bold; margin-top: 15px; letter-spacing: 1px; }
 
         /* 卡片清單 */
@@ -66,6 +59,11 @@
         }
         .card-row { display: flex; justify-content: space-between; align-items: center; }
         .owner-name { color: var(--dark-blue); font-size: 18px; font-weight: 900; }
+        
+        /* ✨ 時間紅色強調樣式 ✨ */
+        .time-display { font-size: 11px; color: #777; }
+        .time-highlight { color: var(--highlight-red); font-weight: 900; font-size: 13px; }
+
         .btn-view { 
             background: #f0f7ff; color: var(--dark-blue); padding: 10px; 
             text-align: center; text-decoration: none; border-radius: 12px; 
@@ -75,12 +73,14 @@
 </head>
 <body>
 
+<div class="test-badge">測試版</div>
+
 <div id="login-screen">
     <div class="login-card">
         <div style="font-size: 50px; margin-bottom: 10px;">🐶</div>
         <h1>DogBone 管理登入</h1>
         <input type="password" id="pwd-input" class="input-pwd" placeholder="輸入密碼">
-        <button onclick="checkPwd()" class="btn-main">確認登入</button>
+        <button onclick="checkAndFetch()" class="btn-main">安全登入</button>
     </div>
 </div>
 
@@ -89,71 +89,85 @@
         <h1>簽名紀錄查詢</h1>
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋姓名、寵物、電話..." onkeyup="filterCards()">
     </div>
-
-    <div id="loader" class="loader-wrap">
-        <div class="bone-spinner">🦴</div>
-        <div class="loader-text">正在叼取資料中...</div>
-    </div>
-    
     <div id="list-container"></div>
+</div>
+
+<div id="loader" class="loader-wrap">
+    <div class="bone-spinner">🦴</div>
+    <div class="loader-text" id="loader-msg">驗證密碼中...</div>
 </div>
 
 <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx0AV8k6Qn-i-6uILBE5bcBNg5oymzSDSF8sXux5Su-QqFC7M208uILNeCTAeyvAw6XVQ/exec';
-    const MASTER_PWD = 'dogbone888'; 
 
-    function checkPwd() {
-        if (document.getElementById('pwd-input').value === MASTER_PWD) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('admin-content').style.display = 'block';
-            fetchData();
-        } else {
-            alert('密碼錯誤！🐾');
-        }
-    }
+    function checkAndFetch() {
+        const pwd = document.getElementById('pwd-input').value;
+        if (!pwd) { alert('請輸入密碼！🐾'); return; }
 
-    function fetchData() {
-        fetch(scriptURL)
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('loader').style.display = 'flex';
+
+        fetch(`${scriptURL}?p=${encodeURIComponent(pwd)}`)
             .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('list-container');
-                container.innerHTML = '';
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#999;">目前尚無紀錄</p>';
-                } else {
-                    data.reverse().forEach(row => {
-                        container.innerHTML += `
-                            <div class="record-card">
-                                <div class="card-row">
-                                    <span class="owner-name">👤 ${row.owner}</span>
-                                    <span style="color:#aaa; font-size:11px;">${row.time}</span>
-                                </div>
-                                <div class="card-row">
-                                    <span style="color:#888; font-size:12px;">🐶 寵物</span>
-                                    <span style="font-weight:700;">${row.pet}</span>
-                                </div>
-                                <div class="card-row">
-                                    <span style="color:#888; font-size:12px;">📱 電話</span>
-                                    <span style="font-weight:700;">${row.phone}</span>
-                                </div>
-                                <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
-                            </div>
-                        `;
-                    });
+                if (data.error === "unauthorized") {
+                    alert('密碼錯誤！🐾');
+                    location.reload();
+                    return;
                 }
                 document.getElementById('loader').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+                renderList(data);
             })
             .catch(err => {
-                document.getElementById('loader-text').innerText = '讀取失敗，請重試。';
+                document.getElementById('loader-msg').innerText = '連線失敗，請重試。';
+                setTimeout(() => location.reload(), 2000);
             });
+    }
+
+    function renderList(data) {
+        const container = document.getElementById('list-container');
+        container.innerHTML = '';
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">目前尚無紀錄</p>';
+        } else {
+            data.reverse().forEach(row => {
+                // 解析時間字串以便標色 (假設格式為 YYYY-MM-DD HH:mm)
+                let fullTime = row.time;
+                let datePart = fullTime.split(' ')[0]; // yyyy-mm-dd
+                let timePart = fullTime.split(' ')[1]; // hh:mm
+                
+                // 提取 月-日
+                let monthDay = datePart.substring(5); 
+
+                container.innerHTML += `
+                    <div class="record-card">
+                        <div class="card-row">
+                            <span class="owner-name">👤 ${row.owner}</span>
+                            <span class="time-display">
+                                ${datePart.substring(0,4)}-<span class="time-highlight">${monthDay} ${timePart}</span>
+                            </span>
+                        </div>
+                        <div class="card-row">
+                            <span style="color:#888; font-size:12px;">🐶 寵物</span>
+                            <span style="font-weight:700;">${row.pet}</span>
+                        </div>
+                        <div class="card-row">
+                            <span style="color:#888; font-size:12px;">📱 電話</span>
+                            <span style="font-weight:700;">${row.phone}</span>
+                        </div>
+                        <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
+                    </div>
+                `;
+            });
+        }
     }
 
     function filterCards() {
         const input = document.getElementById('search-input').value.toUpperCase();
         const cards = document.getElementsByClassName('record-card');
         for (let i = 0; i < cards.length; i++) {
-            const text = cards[i].innerText.toUpperCase();
-            cards[i].style.display = text.includes(input) ? "" : "none";
+            cards[i].style.display = cards[i].innerText.toUpperCase().includes(input) ? "" : "none";
         }
     }
 </script>
