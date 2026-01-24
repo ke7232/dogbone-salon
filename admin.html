@@ -6,7 +6,7 @@
     <title>DogBone - 行動管理後台 (測試版)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; --test-red: #ff4d4d; --highlight-red: #e63946; --call-green: #4caf50; }
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; --test-red: #ff4d4d; --highlight-red: #e63946; --call-blue: #0077b6; }
         
         body { 
             font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); 
@@ -40,40 +40,40 @@
         .bone-spinner { font-size: 50px; animation: spin-and-bounce 1.5s linear infinite; display: inline-block; }
         @keyframes spin-and-bounce { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-15px) rotate(90deg); } 50% { transform: translateY(0) rotate(180deg); } 75% { transform: translateY(-15px) rotate(270deg); } 100% { transform: translateY(0) rotate(360deg); } }
         
-        /* --- ✨ 優化後的卡片排版 --- */
         .record-card {
-            background: var(--white); border-radius: 20px; padding: 15px;
-            margin-bottom: 12px; border: 1px solid #eef7ff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            display: flex; flex-direction: column; gap: 10px;
+            background: var(--white); border-radius: 22px; padding: 18px;
+            margin-bottom: 15px; border: 1px solid #eef7ff;
+            box-shadow: 0 4px 20px rgba(162, 210, 255, 0.1);
+            display: flex; flex-direction: column; gap: 12px;
         }
         
-        .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
-        .owner-name { color: var(--dark-blue); font-size: 19px; font-weight: 900; }
-        .time-display { font-size: 11px; color: #777; text-align: right; }
+        .header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .owner-name { color: var(--dark-blue); font-size: 20px; font-weight: 900; }
+        .time-display { font-size: 11px; color: #aaa; text-align: right; line-height: 1.2; }
         .time-highlight { color: var(--highlight-red); font-weight: 900; font-size: 13px; }
 
         .info-grid {
-            display: flex; flex-wrap: wrap; gap: 10px 20px;
-            padding: 8px 0; border-top: 1px dashed #eee; border-bottom: 1px dashed #eee;
+            display: flex; flex-direction: column; gap: 8px;
+            padding: 10px 0; border-top: 1px dashed #f0f0f0;
         }
-        .info-item { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: #333; }
-        .info-icon { font-size: 16px; }
+        .info-item { display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 700; color: #333; }
+        .info-content { display: flex; align-items: center; gap: 8px; }
 
-        /* 撥號按鈕樣式 */
+        /* ✨ 重新設計的撥號按鈕 ✨ */
         .call-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: var(--dark-blue); color: white; 
-            width: 32px; height: 32px; border-radius: 50%;
-            text-decoration: none; font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0,119,182,0.3);
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #eef7ff; color: var(--dark-blue); 
+            padding: 6px 12px; border-radius: 10px;
+            text-decoration: none; font-size: 13px; font-weight: 900;
+            border: 1px solid var(--main-blue);
+            transition: all 0.2s;
         }
+        .call-btn:active { transform: scale(0.95); background: var(--main-blue); color: white; }
 
-        .action-row { display: flex; gap: 10px; margin-top: 5px; }
         .btn-view { 
-            flex: 1; background: #f0f7ff; color: var(--dark-blue); padding: 10px; 
-            text-align: center; text-decoration: none; border-radius: 12px; 
-            font-size: 14px; font-weight: 900; border: 1px solid var(--main-blue);
+            background: var(--dark-blue); color: white; padding: 12px; 
+            text-align: center; text-decoration: none; border-radius: 15px; 
+            font-size: 14px; font-weight: 900; box-shadow: 0 4px 10px rgba(0, 119, 182, 0.2);
         }
     </style>
 </head>
@@ -146,20 +146,20 @@
                     <div class="record-card">
                         <div class="header-row">
                             <span class="owner-name">👤 ${row.owner}</span>
-                            <span class="time-display">
-                                ${datePart.substring(0,4)}-<br><span class="time-highlight">${monthDay} ${timePart}</span>
-                            </span>
-                        </div>
-                        <div class="info-grid">
-                            <div class="info-item"><span class="info-icon">🐶</span> ${row.pet}</div>
-                            <div class="info-item">
-                                <span class="info-icon">📱</span> ${row.phone}
-                                <a href="tel:${row.phone}" class="call-btn">📞</a>
+                            <div class="time-display">
+                                ${datePart.substring(0,4)}<br><span class="time-highlight">${monthDay} ${timePart}</span>
                             </div>
                         </div>
-                        <div class="action-row">
-                            <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-content"><span>🐶</span> ${row.pet}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-content"><span>📱</span> ${row.phone}</div>
+                                <a href="tel:${row.phone}" class="call-btn">📞 撥打</a>
+                            </div>
                         </div>
+                        <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
                     </div>
                 `;
             });
