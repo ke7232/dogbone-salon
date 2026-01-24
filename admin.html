@@ -10,7 +10,7 @@
         
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); margin: 0; padding: 8px; display: flex; flex-direction: column; align-items: center; }
 
-        /* 右上角測試版標籤 - 縮小版避免擋字 */
+        /* 右上角測試版標籤 */
         .test-badge { position: fixed; top: 10px; right: -35px; background-color: var(--test-red); color: white; padding: 3px 40px; font-size: 10px; font-weight: 900; transform: rotate(45deg); z-index: 1001; pointer-events: none; }
 
         #login-screen { width: 95%; max-width: 350px; text-align: center; padding-top: 60px; }
@@ -24,37 +24,41 @@
         h1 { font-weight: 900; color: var(--dark-blue); font-size: 20px; margin: 0 0 5px 0; text-align: center; }
         .search-bar { width: 100%; padding: 10px 15px; border: 2px solid var(--main-blue); border-radius: 12px; box-sizing: border-box; font-size: 14px; outline: none; }
 
-        /* --- ✨ 極簡卡片排版：目標一頁三筆 --- */
+        /* ✨ 極簡卡片排版：目標一頁三筆 ✨ */
         .record-card {
             background: var(--white); border-radius: 15px; padding: 10px 12px;
             margin-bottom: 8px; border: 1px solid #eef7ff;
             box-shadow: 0 2px 10px rgba(162, 210, 255, 0.08);
-            display: flex; flex-direction: column; gap: 4px;
+            display: flex; flex-direction: column; gap: 2px;
         }
         
-        /* 第一行：名字與時間 */
-        .row-top { display: flex; justify-content: space-between; align-items: center; }
-        .owner-name { color: var(--dark-blue); font-size: 17px; font-weight: 900; }
+        /* 第一行：主人姓名、IP與時間 */
+        .row-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .owner-info { display: flex; flex-direction: column; }
+        .owner-name { color: var(--dark-blue); font-size: 17px; font-weight: 900; line-height: 1.2; }
+        .ip-display { font-size: 9px; color: #ccc; font-weight: 400; }
         .time-display { font-size: 10px; color: #bbb; text-align: right; line-height: 1.1; }
         .time-highlight { color: var(--highlight-red); font-weight: 900; font-size: 11px; }
 
-        /* 第二行：寵物與電話整合 */
+        /* 第二行：寵物、犬種與電話整合 (橫向填滿) */
         .row-mid { 
-            display: flex; align-items: center; gap: 12px; 
-            font-size: 14px; font-weight: 700; color: #444;
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 13px; font-weight: 700; color: #444;
             padding: 4px 0; border-top: 1px solid #f9f9f9;
         }
-        .item { display: flex; align-items: center; gap: 4px; }
+        .item-group { display: flex; gap: 8px; }
+        .item { display: flex; align-items: center; gap: 3px; }
+        .breed-tag { font-size: 11px; color: #888; background: #f0f4f8; padding: 1px 6px; border-radius: 4px; font-weight: 400; }
 
         /* 第三行：功能按鈕 */
         .row-btns { display: flex; gap: 8px; margin-top: 2px; }
         .btn-view { 
-            flex: 1; background: #f0f7ff; color: var(--dark-blue); padding: 6px; 
+            flex: 1; background: #f0f7ff; color: var(--dark-blue); padding: 5px; 
             text-align: center; text-decoration: none; border-radius: 8px; 
             font-size: 12px; font-weight: 900; border: 1px solid var(--main-blue);
         }
         .btn-call { 
-            background: var(--dark-blue); color: white; padding: 6px 12px; 
+            background: var(--dark-blue); color: white; padding: 5px 12px; 
             text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 900;
         }
 
@@ -79,7 +83,7 @@
 <div id="admin-content">
     <div class="sticky-header">
         <h1>簽名紀錄查詢</h1>
-        <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋姓名、寵物..." onkeyup="filterCards()">
+        <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋主人、寵物..." onkeyup="filterCards()">
     </div>
     <div id="list-container"></div>
 </div>
@@ -120,7 +124,7 @@
         const container = document.getElementById('list-container');
         container.innerHTML = '';
         if (!data || data.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#999; font-size:14px;">無紀錄</p>';
+            container.innerHTML = '<p style="text-align:center; color:#999; font-size:14px; margin-top:20px;">無紀錄</p>';
         } else {
             data.reverse().forEach(row => {
                 let fullTime = row.time;
@@ -131,17 +135,23 @@
                 container.innerHTML += `
                     <div class="record-card">
                         <div class="row-top">
-                            <span class="owner-name">👤 ${row.owner}</span>
+                            <div class="owner-info">
+                                <span class="owner-name">👤 ${row.owner}</span>
+                                <span class="ip-display">IP: ${row.ip || '未知'}</span>
+                            </div>
                             <span class="time-display">
                                 ${datePart.substring(2,4)}-<span class="time-highlight">${monthDay} ${timePart}</span>
                             </span>
                         </div>
                         <div class="row-mid">
-                            <div class="item"><span>🐶</span> ${row.pet}</div>
+                            <div class="item-group">
+                                <div class="item"><span>🐶</span> ${row.pet}</div>
+                                <span class="breed-tag">${row.breed || '未填'}</span>
+                            </div>
                             <div class="item"><span>📱</span> ${row.phone}</div>
                         </div>
                         <div class="row-btns">
-                            <a href="${row.sigUrl}" target="_blank" class="btn-view">查看簽名圖片</a>
+                            <a href="${row.sigUrl}" target="_blank" class="btn-view">簽名圖片</a>
                             <a href="tel:${row.phone}" class="btn-call">📞 撥打</a>
                         </div>
                     </div>
