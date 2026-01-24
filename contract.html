@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DogBone 狗骨頭寵物美容 - 服務契約</title>
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; }
         body { 
@@ -15,22 +15,40 @@
             max-width: 450px; width: 100%; background: white; padding: 20px; 
             border-radius: 25px; box-shadow: 0 10px 30px rgba(162, 210, 255, 0.15); 
             border: 2px solid #eef7ff; box-sizing: border-box; 
+            position: relative; overflow: hidden; /* 為了放置測試標籤 */
+        }
+
+        /* 右上角測試用標籤 */
+        .test-badge {
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 5px 40px;
+            font-size: 12px;
+            font-weight: 900;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+            pointer-events: none;
         }
         
-        /* 標題區塊優化：左右放圖標 */
+        /* 標題區塊：樣式同步 notice.html */
         .header-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 5px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; margin-bottom: 5px;
         }
         .mini-icon { width: 45px; height: 45px; }
         .logo-text { 
-            font-family: 'ZCOOL KuaiLe', cursive; font-size: 32px; 
+            font-weight: 900; font-size: 32px; 
             color: var(--dark-blue); margin: 0; line-height: 1;
+            letter-spacing: -1px;
         }
-        .sub-title { text-align: center; color: #888; font-size: 15px; font-weight: bold; margin-bottom: 20px; }
+        .sub-title { 
+            text-align: center; color: #888; font-size: 16px; 
+            font-weight: 700; margin-bottom: 20px; 
+        }
 
         .form-section { margin-bottom: 15px; }
         .input-group { margin-bottom: 10px; }
@@ -77,6 +95,8 @@
 </div>
 
 <div class="container">
+    <div class="test-badge">測試用</div>
+
     <div class="logo-area">
         <div class="header-wrap">
             <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="dog">
