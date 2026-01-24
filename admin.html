@@ -3,78 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DogBone - 行動管理後台 (測試版)</title>
+    <title>DogBone - 管理後台 (測試版)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; --test-red: #ff4d4d; --highlight-red: #e63946; --call-blue: #0077b6; }
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --white: #ffffff; --test-red: #ff4d4d; --highlight-red: #e63946; }
         
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); 
-            margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
-            position: relative; overflow-x: hidden;
-        }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); margin: 0; padding: 8px; display: flex; flex-direction: column; align-items: center; }
 
-        .test-badge {
-            position: fixed; top: 15px; right: -35px;
-            background-color: var(--test-red); color: white;
-            padding: 5px 40px; font-size: 12px; font-weight: 900;
-            transform: rotate(45deg); z-index: 1001; pointer-events: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        /* 右上角測試版標籤 - 縮小版避免擋字 */
+        .test-badge { position: fixed; top: 10px; right: -35px; background-color: var(--test-red); color: white; padding: 3px 40px; font-size: 10px; font-weight: 900; transform: rotate(45deg); z-index: 1001; pointer-events: none; }
 
-        #login-screen { width: 95%; max-width: 350px; text-align: center; padding-top: 80px; }
-        .login-card {
-            background: var(--white); padding: 30px 20px; border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(162, 210, 255, 0.2); border: 2px solid #eef7ff;
-        }
-        .dachshund-icon { width: 100px; height: 100px; margin-bottom: 10px; }
-        .input-pwd { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #ddd; font-size: 18px; margin-bottom: 20px; box-sizing: border-box; text-align: center; outline: none; }
-        .btn-main { width: 100%; padding: 15px; background: var(--dark-blue); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 18px; cursor: pointer; }
+        #login-screen { width: 95%; max-width: 350px; text-align: center; padding-top: 60px; }
+        .login-card { background: var(--white); padding: 25px 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(162, 210, 255, 0.2); border: 2px solid #eef7ff; }
+        .dachshund-icon { width: 80px; height: 80px; margin-bottom: 10px; }
+        .input-pwd { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #ddd; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; text-align: center; outline: none; }
+        .btn-main { width: 100%; padding: 12px; background: var(--dark-blue); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 16px; cursor: pointer; }
 
         #admin-content { width: 100%; max-width: 500px; display: none; }
-        .sticky-header { position: sticky; top: 0; background: var(--bg-light); padding: 10px 0; z-index: 100; width: 100%; }
-        h1 { font-weight: 900; color: var(--dark-blue); font-size: 24px; margin: 0 0 5px 0; text-align: center; }
-        .search-bar { width: 100%; padding: 12px 15px; border: 2px solid var(--main-blue); border-radius: 15px; box-sizing: border-box; font-size: 16px; outline: none; }
+        .sticky-header { position: sticky; top: 0; background: var(--bg-light); padding: 5px 0 10px 0; z-index: 100; width: 100%; }
+        h1 { font-weight: 900; color: var(--dark-blue); font-size: 20px; margin: 0 0 5px 0; text-align: center; }
+        .search-bar { width: 100%; padding: 10px 15px; border: 2px solid var(--main-blue); border-radius: 12px; box-sizing: border-box; font-size: 14px; outline: none; }
 
-        .loader-wrap { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0; }
-        .bone-spinner { font-size: 50px; animation: spin-and-bounce 1.5s linear infinite; display: inline-block; }
-        @keyframes spin-and-bounce { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-15px) rotate(90deg); } 50% { transform: translateY(0) rotate(180deg); } 75% { transform: translateY(-15px) rotate(270deg); } 100% { transform: translateY(0) rotate(360deg); } }
-        
+        /* --- ✨ 極簡卡片排版：目標一頁三筆 --- */
         .record-card {
-            background: var(--white); border-radius: 22px; padding: 18px;
-            margin-bottom: 15px; border: 1px solid #eef7ff;
-            box-shadow: 0 4px 20px rgba(162, 210, 255, 0.1);
-            display: flex; flex-direction: column; gap: 12px;
+            background: var(--white); border-radius: 15px; padding: 10px 12px;
+            margin-bottom: 8px; border: 1px solid #eef7ff;
+            box-shadow: 0 2px 10px rgba(162, 210, 255, 0.08);
+            display: flex; flex-direction: column; gap: 4px;
         }
         
-        .header-row { display: flex; justify-content: space-between; align-items: flex-start; }
-        .owner-name { color: var(--dark-blue); font-size: 20px; font-weight: 900; }
-        .time-display { font-size: 11px; color: #aaa; text-align: right; line-height: 1.2; }
-        .time-highlight { color: var(--highlight-red); font-weight: 900; font-size: 13px; }
+        /* 第一行：名字與時間 */
+        .row-top { display: flex; justify-content: space-between; align-items: center; }
+        .owner-name { color: var(--dark-blue); font-size: 17px; font-weight: 900; }
+        .time-display { font-size: 10px; color: #bbb; text-align: right; line-height: 1.1; }
+        .time-highlight { color: var(--highlight-red); font-weight: 900; font-size: 11px; }
 
-        .info-grid {
-            display: flex; flex-direction: column; gap: 8px;
-            padding: 10px 0; border-top: 1px dashed #f0f0f0;
+        /* 第二行：寵物與電話整合 */
+        .row-mid { 
+            display: flex; align-items: center; gap: 12px; 
+            font-size: 14px; font-weight: 700; color: #444;
+            padding: 4px 0; border-top: 1px solid #f9f9f9;
         }
-        .info-item { display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 700; color: #333; }
-        .info-content { display: flex; align-items: center; gap: 8px; }
+        .item { display: flex; align-items: center; gap: 4px; }
 
-        /* ✨ 重新設計的撥號按鈕 ✨ */
-        .call-btn {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: #eef7ff; color: var(--dark-blue); 
-            padding: 6px 12px; border-radius: 10px;
-            text-decoration: none; font-size: 13px; font-weight: 900;
-            border: 1px solid var(--main-blue);
-            transition: all 0.2s;
-        }
-        .call-btn:active { transform: scale(0.95); background: var(--main-blue); color: white; }
-
+        /* 第三行：功能按鈕 */
+        .row-btns { display: flex; gap: 8px; margin-top: 2px; }
         .btn-view { 
-            background: var(--dark-blue); color: white; padding: 12px; 
-            text-align: center; text-decoration: none; border-radius: 15px; 
-            font-size: 14px; font-weight: 900; box-shadow: 0 4px 10px rgba(0, 119, 182, 0.2);
+            flex: 1; background: #f0f7ff; color: var(--dark-blue); padding: 6px; 
+            text-align: center; text-decoration: none; border-radius: 8px; 
+            font-size: 12px; font-weight: 900; border: 1px solid var(--main-blue);
         }
+        .btn-call { 
+            background: var(--dark-blue); color: white; padding: 6px 12px; 
+            text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 900;
+        }
+
+        .loader-wrap { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px 0; }
+        .bone-spinner { font-size: 40px; animation: spin-and-bounce 1.5s linear infinite; display: inline-block; }
+        @keyframes spin-and-bounce { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-10px) rotate(90deg); } 50% { transform: translateY(0) rotate(180deg); } 75% { transform: translateY(-10px) rotate(270deg); } 100% { transform: translateY(0) rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -84,23 +70,23 @@
 <div id="login-screen">
     <div class="login-card">
         <img class="dachshund-icon" src="https://cdn-icons-png.flaticon.com/512/616/616402.png" alt="Dachshund">
-        <h1>DogBone 管理登入</h1>
+        <h1>管理登入</h1>
         <input type="password" id="pwd-input" class="input-pwd" placeholder="輸入密碼">
-        <button onclick="checkAndFetch()" class="btn-main">安全登入</button>
+        <button onclick="checkAndFetch()" class="btn-main">登入</button>
     </div>
 </div>
 
 <div id="admin-content">
     <div class="sticky-header">
         <h1>簽名紀錄查詢</h1>
-        <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋姓名、寵物、電話..." onkeyup="filterCards()">
+        <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋姓名、寵物..." onkeyup="filterCards()">
     </div>
     <div id="list-container"></div>
 </div>
 
 <div id="loader" class="loader-wrap">
     <div class="bone-spinner">🦴</div>
-    <div class="loader-text" id="loader-msg" style="color:var(--dark-blue); font-weight:bold; margin-top:15px;">驗證密碼中...</div>
+    <div class="loader-text" id="loader-msg" style="color:var(--dark-blue); font-weight:bold; margin-top:10px; font-size:14px;">驗證中...</div>
 </div>
 
 <script>
@@ -108,7 +94,7 @@
 
     function checkAndFetch() {
         const pwd = document.getElementById('pwd-input').value;
-        if (!pwd) { alert('請輸入密碼！🐾'); return; }
+        if (!pwd) return;
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('loader').style.display = 'flex';
 
@@ -125,7 +111,7 @@
                 renderList(data);
             })
             .catch(err => {
-                document.getElementById('loader-msg').innerText = '連線失敗，請重試。';
+                document.getElementById('loader-msg').innerText = '連線失敗';
                 setTimeout(() => location.reload(), 2000);
             });
     }
@@ -134,7 +120,7 @@
         const container = document.getElementById('list-container');
         container.innerHTML = '';
         if (!data || data.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">目前尚無紀錄</p>';
+            container.innerHTML = '<p style="text-align:center; color:#999; font-size:14px;">無紀錄</p>';
         } else {
             data.reverse().forEach(row => {
                 let fullTime = row.time;
@@ -144,22 +130,20 @@
 
                 container.innerHTML += `
                     <div class="record-card">
-                        <div class="header-row">
+                        <div class="row-top">
                             <span class="owner-name">👤 ${row.owner}</span>
-                            <div class="time-display">
-                                ${datePart.substring(0,4)}<br><span class="time-highlight">${monthDay} ${timePart}</span>
-                            </div>
+                            <span class="time-display">
+                                ${datePart.substring(2,4)}-<span class="time-highlight">${monthDay} ${timePart}</span>
+                            </span>
                         </div>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="info-content"><span>🐶</span> ${row.pet}</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-content"><span>📱</span> ${row.phone}</div>
-                                <a href="tel:${row.phone}" class="call-btn">📞 撥打</a>
-                            </div>
+                        <div class="row-mid">
+                            <div class="item"><span>🐶</span> ${row.pet}</div>
+                            <div class="item"><span>📱</span> ${row.phone}</div>
                         </div>
-                        <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
+                        <div class="row-btns">
+                            <a href="${row.sigUrl}" target="_blank" class="btn-view">查看簽名圖片</a>
+                            <a href="tel:${row.phone}" class="btn-call">📞 撥打</a>
+                        </div>
                     </div>
                 `;
             });
