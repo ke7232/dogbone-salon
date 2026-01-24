@@ -13,17 +13,15 @@
             margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; 
         }
 
-        /* --- 核心：響應式容器設計 --- */
         .container { 
             width: 100%; 
-            max-width: 800px; /* 電腦版最大寬度 */
+            max-width: 800px; 
             background: white; padding: 30px; 
             border-radius: 30px; box-shadow: 0 15px 40px rgba(162, 210, 255, 0.2); 
             border: 2px solid #eef7ff; box-sizing: border-box; 
             position: relative; overflow: hidden;
         }
 
-        /* 手機版自動調整 (當螢幕寬度小於 600px 時) */
         @media (max-width: 600px) {
             body { padding: 10px; }
             .container { padding: 20px; border-radius: 20px; }
@@ -32,7 +30,6 @@
             .signature-wrapper { height: 180px; }
         }
 
-        /* 右上角測試用標籤 */
         .test-badge {
             position: absolute; top: 15px; right: -35px;
             background-color: #ff4d4d; color: white;
@@ -45,14 +42,13 @@
         .logo-text { font-weight: 900; font-size: 40px; color: var(--dark-blue); margin: 0; letter-spacing: -1px; }
         .sub-title { text-align: center; color: #888; font-size: 18px; font-weight: 700; margin-bottom: 25px; }
 
-        /* 表單區域電腦版排為雙欄 */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 15px;
         }
-        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } } /* 手機變回單欄 */
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
 
         .input-group label { display: block; margin-bottom: 5px; color: var(--dark-blue); font-weight: bold; font-size: 14px; }
         .input-group input { 
@@ -79,14 +75,33 @@
         #save-btn { background: var(--main-blue); color: white; }
 
         .privacy-note { margin-top: 20px; color: #aaa; font-size: 12px; text-align: center; }
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
+
+        /* --- ✨ 修正：動態載入樣式同步 --- */
+        .loading-overlay { 
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100%; height: 100%; background: rgba(255,255,255,0.9); 
+            z-index: 1000; flex-direction: column; justify-content: center; align-items: center; 
+        }
+        .bone-spinner {
+            font-size: 60px;
+            animation: spin-and-bounce 1.5s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin-and-bounce {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(0) rotate(180deg); }
+            75% { transform: translateY(-20px) rotate(270deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+        .loader-text { color: var(--dark-blue); font-weight: 900; margin-top: 20px; font-size: 20px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
 <div id="loading" class="loading-overlay">
-    <div style="font-size: 50px; animation: bounce 1s infinite;">🦴</div>
-    <p style="color: var(--dark-blue); font-weight: bold; font-size: 20px;">資料叼送中...</p>
+    <div class="bone-spinner">🦴</div>
+    <div class="loader-text">資料叼送中...</div>
 </div>
 
 <div class="container">
