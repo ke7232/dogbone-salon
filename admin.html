@@ -13,10 +13,8 @@
             margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* 登入介面優化 */
-        #login-screen { 
-            width: 90%; max-width: 350px; text-align: center; padding-top: 80px; 
-        }
+        /* 登入介面 */
+        #login-screen { width: 90%; max-width: 350px; text-align: center; padding-top: 80px; }
         .login-card {
             background: var(--white); padding: 30px 20px; border-radius: 25px;
             box-shadow: 0 10px 25px rgba(162, 210, 255, 0.2); border: 2px solid #eef7ff;
@@ -33,50 +31,54 @@
 
         /* 主內容區 */
         #admin-content { width: 100%; max-width: 500px; display: none; }
-        
-        .sticky-header {
-            position: sticky; top: 0; background: var(--bg-light); 
-            padding: 10px 0; z-index: 100; width: 100%;
-        }
-
+        .sticky-header { position: sticky; top: 0; background: var(--bg-light); padding: 10px 0; z-index: 100; width: 100%; }
         h1 { font-weight: 900; color: var(--dark-blue); font-size: 24px; margin: 0 0 5px 0; text-align: center; }
-        
         .search-bar { 
             width: 100%; padding: 12px 15px; border: 2px solid var(--main-blue); 
             border-radius: 15px; box-sizing: border-box; font-size: 16px; outline: none;
-            box-shadow: 0 4px 12px rgba(162, 210, 255, 0.1);
         }
 
-        /* 卡片式清單 */
+        /* --- ✨ 動態載入動畫 ✨ --- */
+        .loader-wrap { 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; padding: 60px 0; 
+        }
+        .bone-spinner {
+            font-size: 50px;
+            animation: spin-and-bounce 1.5s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin-and-bounce {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(90deg); }
+            50% { transform: translateY(0) rotate(180deg); }
+            75% { transform: translateY(-15px) rotate(270deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+        .loader-text { color: var(--dark-blue); font-weight: bold; margin-top: 15px; letter-spacing: 1px; }
+
+        /* 卡片清單 */
         .record-card {
             background: var(--white); border-radius: 20px; padding: 15px;
             margin-bottom: 12px; border: 1px solid #eef7ff;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             display: flex; flex-direction: column; gap: 8px;
         }
-        
         .card-row { display: flex; justify-content: space-between; align-items: center; }
-        .label { color: #888; font-size: 12px; font-weight: bold; }
-        .value { color: #333; font-size: 15px; font-weight: 700; }
         .owner-name { color: var(--dark-blue); font-size: 18px; font-weight: 900; }
-        .time-stamp { color: #aaa; font-size: 11px; }
-
         .btn-view { 
             background: #f0f7ff; color: var(--dark-blue); padding: 10px; 
             text-align: center; text-decoration: none; border-radius: 12px; 
             font-size: 14px; font-weight: 900; margin-top: 5px; border: 1px solid var(--main-blue);
         }
-
-        .loader { text-align: center; padding: 40px; color: var(--dark-blue); font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
     <div class="login-card">
-        <div style="font-size: 50px; margin-bottom: 10px;">🐕</div>
+        <div style="font-size: 50px; margin-bottom: 10px;">🐶</div>
         <h1>DogBone 管理登入</h1>
-        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">請輸入密碼管理簽名紀錄</p>
         <input type="password" id="pwd-input" class="input-pwd" placeholder="輸入密碼">
         <button onclick="checkPwd()" class="btn-main">確認登入</button>
     </div>
@@ -88,14 +90,17 @@
         <input type="text" id="search-input" class="search-bar" placeholder="🔍 搜尋姓名、寵物、電話..." onkeyup="filterCards()">
     </div>
 
-    <div id="loader" class="loader">正在叼回資料... 🐾</div>
+    <div id="loader" class="loader-wrap">
+        <div class="bone-spinner">🦴</div>
+        <div class="loader-text">正在叼取資料中...</div>
+    </div>
     
     <div id="list-container"></div>
 </div>
 
 <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx0AV8k6Qn-i-6uILBE5bcBNg5oymzSDSF8sXux5Su-QqFC7M208uILNeCTAeyvAw6XVQ/exec';
-    const MASTER_PWD = '888'; 
+    const MASTER_PWD = 'dogbone888'; 
 
     function checkPwd() {
         if (document.getElementById('pwd-input').value === MASTER_PWD) {
@@ -113,24 +118,23 @@
             .then(data => {
                 const container = document.getElementById('list-container');
                 container.innerHTML = '';
-                
                 if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#999; margin-top:20px;">目前尚無紀錄</p>';
+                    container.innerHTML = '<p style="text-align:center; color:#999;">目前尚無紀錄</p>';
                 } else {
                     data.reverse().forEach(row => {
                         container.innerHTML += `
                             <div class="record-card">
                                 <div class="card-row">
                                     <span class="owner-name">👤 ${row.owner}</span>
-                                    <span class="time-stamp">${row.time}</span>
+                                    <span style="color:#aaa; font-size:11px;">${row.time}</span>
                                 </div>
                                 <div class="card-row">
-                                    <span class="label">🐶 寵物名字</span>
-                                    <span class="value">${row.pet}</span>
+                                    <span style="color:#888; font-size:12px;">🐶 寵物</span>
+                                    <span style="font-weight:700;">${row.pet}</span>
                                 </div>
                                 <div class="card-row">
-                                    <span class="label">📱 聯絡電話</span>
-                                    <span class="value">${row.phone}</span>
+                                    <span style="color:#888; font-size:12px;">📱 電話</span>
+                                    <span style="font-weight:700;">${row.phone}</span>
                                 </div>
                                 <a href="${row.sigUrl}" target="_blank" class="btn-view">👀 查看簽名圖片</a>
                             </div>
@@ -139,7 +143,9 @@
                 }
                 document.getElementById('loader').style.display = 'none';
             })
-            .catch(err => alert('連線失敗，請檢查網路。'));
+            .catch(err => {
+                document.getElementById('loader-text').innerText = '讀取失敗，請重試。';
+            });
     }
 
     function filterCards() {
