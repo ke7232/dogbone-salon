@@ -6,7 +6,7 @@
     <title>DogBone 狗骨頭寵物美容 - 服務契約</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; }
+        :root { --main-blue: #a2d2ff; --dark-blue: #0077b6; --bg-light: #f8fcff; --agree-green: #2d6a4f; }
         
         body { 
             font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-light); 
@@ -14,8 +14,7 @@
         }
 
         .container { 
-            width: 100%; 
-            max-width: 800px; 
+            width: 100%; max-width: 800px; 
             background: white; padding: 30px; 
             border-radius: 30px; box-shadow: 0 15px 40px rgba(162, 210, 255, 0.2); 
             border: 2px solid #eef7ff; box-sizing: border-box; 
@@ -42,30 +41,24 @@
         .logo-text { font-weight: 900; font-size: 40px; color: var(--dark-blue); margin: 0; letter-spacing: -1px; }
         .sub-title { text-align: center; color: #888; font-size: 18px; font-weight: 700; margin-bottom: 25px; }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
 
         .input-group label { display: block; margin-bottom: 5px; color: var(--dark-blue); font-weight: bold; font-size: 14px; }
-        .input-group input { 
-            width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; 
-            box-sizing: border-box; outline: none; font-size: 16px; 
-        }
+        .input-group input { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; outline: none; font-size: 16px; }
 
-        .contract-box { 
-            height: 120px; overflow-y: scroll; border: 1px solid #eee; padding: 15px; 
-            background: #fafafa; font-size: 14px; border-radius: 15px; margin-bottom: 20px; color: #666; 
-        }
+        .contract-box { height: 120px; overflow-y: scroll; border: 1px solid #eee; padding: 15px; background: #fafafa; font-size: 14px; border-radius: 15px; margin-bottom: 15px; color: #666; }
 
-        .signature-wrapper { 
-            width: 100%; height: 250px; background-color: #fff; 
-            border: 2px solid var(--main-blue); border-radius: 15px; 
-            position: relative; touch-action: none; 
+        /* 同意勾選框樣式 */
+        .agree-section {
+            display: flex; align-items: flex-start; gap: 10px;
+            margin-bottom: 20px; padding: 12px; background: #f0fdf4;
+            border-radius: 15px; border: 1px solid #dcfce7;
         }
+        .agree-section input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; flex-shrink: 0; }
+        .agree-section label { font-size: 14px; color: var(--agree-green); font-weight: bold; cursor: pointer; line-height: 1.4; }
+
+        .signature-wrapper { width: 100%; height: 250px; background-color: #fff; border: 2px solid var(--main-blue); border-radius: 15px; position: relative; touch-action: none; }
         canvas { width: 100%; height: 100%; border-radius: 15px; }
         .sig-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ddd; pointer-events: none; }
 
@@ -74,26 +67,17 @@
         #clear-btn { background: #f5f5f5; color: #999; }
         #save-btn { background: var(--main-blue); color: white; }
 
-        .privacy-note { margin-top: 20px; color: #aaa; font-size: 12px; text-align: center; }
+        /* 數位存根聯區域 */
+        #receipt-area { display: none; text-align: center; }
+        .receipt-card { background: #fff; border: 2px dashed var(--main-blue); padding: 20px; border-radius: 20px; margin-top: 20px; text-align: left; }
+        .receipt-item { margin-bottom: 10px; font-size: 16px; color: #333; }
+        .receipt-item strong { color: var(--dark-blue); }
+        .sig-preview { width: 100%; border: 1px solid #eee; margin-top: 10px; border-radius: 10px; background: white; }
+        .save-hint { background: #fff9db; color: #856404; padding: 10px; border-radius: 10px; font-size: 14px; margin-top: 15px; text-align: center; font-weight: bold; }
 
-        /* --- ✨ 修正：動態載入樣式同步 --- */
-        .loading-overlay { 
-            display: none; position: fixed; top: 0; left: 0; 
-            width: 100%; height: 100%; background: rgba(255,255,255,0.9); 
-            z-index: 1000; flex-direction: column; justify-content: center; align-items: center; 
-        }
-        .bone-spinner {
-            font-size: 60px;
-            animation: spin-and-bounce 1.5s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin-and-bounce {
-            0% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-20px) rotate(90deg); }
-            50% { transform: translateY(0) rotate(180deg); }
-            75% { transform: translateY(-20px) rotate(270deg); }
-            100% { transform: translateY(0) rotate(360deg); }
-        }
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; justify-content: center; align-items: center; }
+        .bone-spinner { font-size: 60px; animation: spin-and-bounce 1.5s linear infinite; display: inline-block; }
+        @keyframes spin-and-bounce { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-20px) rotate(90deg); } 50% { transform: translateY(0) rotate(180deg); } 75% { transform: translateY(-20px) rotate(270deg); } 100% { transform: translateY(0) rotate(360deg); } }
         .loader-text { color: var(--dark-blue); font-weight: 900; margin-top: 20px; font-size: 20px; letter-spacing: 1px; }
     </style>
 </head>
@@ -101,51 +85,77 @@
 
 <div id="loading" class="loading-overlay">
     <div class="bone-spinner">🦴</div>
-    <div class="loader-text">資料叼送中...</div>
+    <div class="loader-text">法律存證叼送中...</div>
 </div>
 
 <div class="container">
-    <div class="test-badge">測試用</div>
-    <div class="logo-area">
-        <div class="header-wrap">
-            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="dog">
-            <h1 class="logo-text">DogBone</h1>
-            <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="cat">
+    <div id="form-area">
+        <div class="test-badge">測試用</div>
+        <div class="logo-area">
+            <div class="header-wrap">
+                <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="dog">
+                <h1 class="logo-text">DogBone</h1>
+                <img class="mini-icon" src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="cat">
+            </div>
+            <div class="sub-title">狗骨頭寵物美容</div>
         </div>
-        <div class="sub-title">狗骨頭寵物美容</div>
-    </div>
 
-    <div class="form-grid">
-        <div class="input-group">
-            <label>👤 主人姓名</label>
-            <input type="text" id="owner-name" placeholder="請填寫" maxlength="15">
+        <div class="form-grid">
+            <div class="input-group">
+                <label>👤 主人姓名</label>
+                <input type="text" id="owner-name" placeholder="請填寫" maxlength="15">
+            </div>
+            <div class="input-group">
+                <label>🐶 寶貝名字</label>
+                <input type="text" id="pet-name" placeholder="請填寫" maxlength="15">
+            </div>
         </div>
-        <div class="input-group">
-            <label>🐶 寶貝名字</label>
-            <input type="text" id="pet-name" placeholder="請填寫" maxlength="15">
+        <div class="input-group" style="margin-bottom: 20px;">
+            <label>📱 聯絡電話</label>
+            <input type="tel" id="owner-phone" placeholder="請輸入手機號碼" maxlength="15">
+        </div>
+
+        <div class="contract-box">
+            <strong>【服務契約摘要】</strong><br>
+            1. 本店依農業部定型化契約範本執行。<br>
+            2. 簽署即代表您確認寵物無重大隱疾。<br>
+            3. 如需緊急送醫，將優先處理並通知飼主。<br>
+            4. 電子簽章具備法律效力，系統將自動記錄簽署 IP 位址。
+        </div>
+
+        <div class="agree-section">
+            <input type="checkbox" id="agree-check">
+            <label for="agree-check">我已詳細閱讀、充分理解並同意上述服務契約條款內容。</label>
+        </div>
+
+        <div style="font-weight: bold; color: var(--dark-blue); margin-bottom: 10px;">✒️ 客戶簽署</div>
+        <div class="signature-wrapper">
+            <div class="sig-hint" id="sig-hint">請在此處手寫簽名</div>
+            <canvas id="signature-pad"></canvas>
+        </div>
+
+        <div class="btn-group">
+            <button id="clear-btn">清除</button>
+            <button id="save-btn">確認送出</button>
         </div>
     </div>
-    <div class="input-group" style="margin-bottom: 20px;">
-        <label>📱 聯絡電話</label>
-        <input type="tel" id="owner-phone" placeholder="請輸入手機號碼" maxlength="15">
-    </div>
 
-    <div class="contract-box">
-        <strong>【服務契約摘要】</strong><br>
-        1. 本店依農業部定型化契約範本執行。<br>
-        2. 簽署即代表您確認寵物無重大隱疾。<br>
-        3. 如需緊急送醫，將優先處理並通知飼主。
-    </div>
+    <div id="receipt-area">
+        <div style="font-size: 50px;">🎉</div>
+        <h2 style="color:var(--dark-blue); font-weight:900;">簽署完成！</h2>
+        <p style="color:#666;">感謝您的配合，以下為您的服務存根聯：</p>
+        
+        <div class="receipt-card">
+            <div class="receipt-item"><strong>主人姓名：</strong> <span id="r-owner"></span></div>
+            <div class="receipt-item"><strong>寶貝名字：</strong> <span id="r-pet"></span></div>
+            <div class="receipt-item"><strong>簽署時間：</strong> <span id="r-time"></span></div>
+            <div class="receipt-item"><strong>簽署 IP 位址：</strong> <span id="r-ip"></span></div>
+            <div style="font-weight:bold; color:var(--dark-blue); margin-top:10px;">數位簽名存證：</div>
+            <img id="r-sig" class="sig-preview" src="">
+        </div>
 
-    <div style="font-weight: bold; color: var(--dark-blue); margin-bottom: 10px;">✒️ 客戶簽署</div>
-    <div class="signature-wrapper">
-        <div class="sig-hint" id="sig-hint">請在此處手寫簽名</div>
-        <canvas id="signature-pad"></canvas>
-    </div>
-
-    <div class="btn-group">
-        <button id="clear-btn">清除</button>
-        <button id="save-btn">確認送出</button>
+        <div class="save-hint">💡 小提醒：您可以「長按上方圖片另存新檔」或直接「手機截圖」保留這份存根唷！</div>
+        <button onclick="location.reload()" style="margin-top:20px; background:var(--dark-blue); color:white; border-radius:50px; width:100%;">返回簽署頁面</button>
     </div>
 
     <div class="privacy-note">
@@ -177,28 +187,61 @@
         document.getElementById('sig-hint').style.display = 'block';
     });
 
-    document.getElementById('save-btn').addEventListener('click', function() {
+    // 功能：獲取用戶 IP
+    async function getIP() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (e) {
+            return "無法取得";
+        }
+    }
+
+    document.getElementById('save-btn').addEventListener('click', async function() {
         const owner = document.getElementById('owner-name').value.trim();
         const pet = document.getElementById('pet-name').value.trim();
         const phone = document.getElementById('owner-phone').value.trim();
+        const isAgreed = document.getElementById('agree-check').checked;
 
         if (!owner || !pet || !phone || signaturePad.isEmpty()) {
             alert("請完整填寫資料並簽名唷！🐾");
             return;
         }
 
+        if (!isAgreed) {
+            alert("請勾選同意服務契約條款。🐾");
+            return;
+        }
+
         document.getElementById('loading').style.display = 'flex';
         this.disabled = true;
+
+        // 抓取 IP 位址
+        const userIP = await getIP();
+        const sigData = signaturePad.toDataURL();
+        const nowString = new Date().toLocaleString('zh-TW');
         
+        // 傳送到 Apps Script (payload 加入 IP)
         fetch(scriptURL, {
             method: 'POST',
             mode: 'no-cors',
-            body: JSON.stringify({ owner, pet, phone, signature: signaturePad.toDataURL() })
+            body: JSON.stringify({ owner, pet, phone, ip: userIP, signature: sigData })
         })
         .then(() => {
             document.getElementById('loading').style.display = 'none';
-            alert("🎉 送出成功！期待見到寶貝！");
-            location.reload(); 
+            // 切換到存根聯頁面
+            document.getElementById('form-area').style.display = 'none';
+            document.getElementById('receipt-area').style.display = 'block';
+            
+            // 填入存根資料
+            document.getElementById('r-owner').innerText = owner;
+            document.getElementById('r-pet').innerText = pet;
+            document.getElementById('r-time').innerText = nowString;
+            document.getElementById('r-ip').innerText = userIP;
+            document.getElementById('r-sig').src = sigData;
+            
+            window.scrollTo(0,0);
         })
         .catch(error => {
             document.getElementById('loading').style.display = 'none';
