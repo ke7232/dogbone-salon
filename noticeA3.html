@@ -49,7 +49,6 @@
             margin-top: 3px; font-weight: 900; white-space: nowrap;
         }
 
-        /* 預約標籤 */
         .booking-tag {
             background-color: var(--booking-blue); color: white;
             padding: 2px 8px; border-radius: 6px; font-size: 13px;
@@ -81,8 +80,8 @@
         }
 
         .booking-rules {
-            background: #eef7ff; padding: 15px; border-radius: 15px; margin-top: 10px;
-            border: 2px solid var(--booking-blue); font-size: 22px; color: var(--dark-blue);
+            background: #eef7ff; padding: 20px; border-radius: 20px; margin-top: 10px;
+            border: 3px solid var(--booking-blue); font-size: 24px; color: #333; line-height: 1.6;
         }
 
         @media print {
@@ -116,21 +115,21 @@
 
         <div class="day sunday"><span class="date">2/8</span></div><div class="day"><span class="date">2/9</span></div><div class="day"><span class="date">2/10</span></div>
         
-        <div class="day" style="border: 3px solid var(--holiday-red); background: #fff5f5;"><span class="date">2/11</span><span class="note" style="color:var(--holiday-red)">預約截止日</span></div>
+        <div class="day" style="border: 3px solid var(--holiday-red); background: #fff5f5;"><span class="date">2/11</span><span class="note" style="color:var(--holiday-red)">最後預約期限</span></div>
         
-        <div class="day warning"><span class="date">2/12</span><span class="note">不收包月</span><div class="booking-tag">提早預約</div></div>
+        <div class="day warning"><span class="date">2/12</span><span class="note">不收包月</span><div class="booking-tag">請先預約</div></div>
         
-        <div class="day warning"><span class="date">2/13</span><span class="note">不收包月/大美</span><div class="price-tag">加價 $100-$300</div><div class="booking-tag">提早預約</div></div>
-        <div class="day warning"><span class="date">2/14</span><span class="note">不收包月/大美</span><div class="price-tag">加價 $100-$300</div><div class="booking-tag">提早預約</div></div>
+        <div class="day warning"><span class="date">2/13</span><span class="note">僅收洗澡</span><div class="price-tag">加價 $100-$300</div><div class="booking-tag" style="background:#e63946">未約安插+$$</div></div>
+        <div class="day warning"><span class="date">2/14</span><span class="note">僅收洗澡</span><div class="price-tag">加價 $100-$300</div><div class="booking-tag" style="background:#e63946">未約安插+$$</div></div>
 
-        <div class="day warning sunday"><span class="date">2/15</span><span class="note">不收包月/大美</span><div class="price-tag">加價 $100-$300</div><div class="booking-tag">提早預約</div></div>
+        <div class="day warning sunday"><span class="date">2/15</span><span class="note">僅收洗澡</span><div class="price-tag">加價 $100-$300</div><div class="booking-tag" style="background:#e63946">未約安插+$$</div></div>
         
-        <div class="day holiday-text"><span class="date">2/16</span><span class="note">除夕</span></div>
-        <div class="day holiday-text"><span class="date">2/17</span><span class="note">初一</span></div>
-        <div class="day holiday-text"><span class="date">2/18</span><span class="note">初二</span></div>
-        <div class="day holiday-text"><span class="date">2/19</span><span class="note">初三</span></div>
-        <div class="day holiday-text"><span class="date">2/20</span><span class="note">初四</span></div>
-        <div class="day holiday-text"><span class="date">2/21</span><span class="note">初五</span></div>
+        <div class="day holiday-text"><span class="date">2/16</span><span class="note">除夕店休</span></div>
+        <div class="day holiday-text"><span class="date">2/17</span><span class="note">初一店休</span></div>
+        <div class="day holiday-text"><span class="date">2/18</span><span class="note">初二店休</span></div>
+        <div class="day holiday-text"><span class="date">2/19</span><span class="note">初三店休</span></div>
+        <div class="day holiday-text"><span class="date">2/20</span><span class="note">初四店休</span></div>
+        <div class="day holiday-text"><span class="date">2/21</span><span class="note">初五店休</span></div>
 
         <div class="day work sunday"><span class="date">2/22</span><span class="note">開工大吉</span></div>
         <div class="day"><span class="date">2/23</span></div>
@@ -139,17 +138,17 @@
 
     <div class="legend">
         <div class="booking-rules">
-            📢 <strong>預約特別公告：</strong> 2/12 - 2/15 期間，名額有限額滿為止。
-            <strong>請務必於 <span style="color:var(--holiday-red); text-decoration: underline;">2/11(三) 以前</span> 完成預約</strong>，若臨時安插需額外加收費用 <strong>$100 - $300</strong>。
+            📢 <strong>預約特別公告：</strong> 2/12 - 2/15 洗澡名額有限額滿為止，請務必於 <strong><span style="color:var(--holiday-red); text-decoration: underline;">2/11(三) 前</span> 完成預約</strong>；<br>若 2/12 - 2/15 臨時安插(未預約)除了原本加收的 $100 - $300，<strong><span style="color:var(--holiday-red);">需再加收安插費用 $100 - $300</span></strong>。
         </div>
+
         <div class="legend-content" style="margin-top: 15px;">
             <div class="legend-column">
-                <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div><strong>不收包月服務：</strong> 2/12 - 2/15。</div></div>
-                <div class="legend-item"><div class="dot" style="background:var(--tag-orange);"></div> <div><strong>預約洗澡加價$100-$300：</strong> 2/13 - 2/15 不收大美容；<br>洗澡加價 $100 - $300。</div></div>
+                <div class="legend-item"><div class="dot" style="background:var(--light-orange); border: 1px solid #ffdec2;"></div> <div><strong>不收包月服務：</strong> 2/12 - 2/15 僅提供單次洗澡。</div></div>
+                <div class="legend-item"><div class="dot" style="background:var(--tag-orange);"></div> <div><strong>洗澡服務加價：</strong> 2/13 - 2/15 不收大美容；<br>洗澡加收春節服務費 $100 - $300。</div></div>
             </div>
             <div class="legend-column">
-                <div class="legend-item"><div class="dot" style="border: 2px solid var(--holiday-red); background:#fffafa;"></div> <div><strong>春節店休：</strong> 2/16 - 2/21。</div></div>
-                <div class="legend-item"><div class="dot" style="background:#d8f3dc; border: 2px solid var(--work-green)"></div> <div><strong>正式開工：</strong> 2/22 (正月初六)。</div></div>
+                <div class="legend-item"><div class="dot" style="border: 2px solid var(--holiday-red); background:#fffafa;"></div> <div><strong>春節店休：</strong> 2/16 - 2/21 (除夕至初五)。</div></div>
+                <div class="legend-item"><div class="dot" style="background:#d8f3dc; border: 2px solid var(--work-green)"></div> <div><strong>開工日：</strong> 2/22 (正月初六) 正式營業。</div></div>
             </div>
         </div>
         <div class="important-note">
